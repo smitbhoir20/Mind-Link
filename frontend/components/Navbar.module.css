@@ -1,0 +1,335 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.02);
+}
+
+.logoIcon {
+    font-size: 1.75rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-3px);
+    }
+}
+
+.logoText {
+    background: linear-gradient(135deg, #8B5CF6 0%, #14B8A6 50%, #60A5FA 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Navigation Links */
+.navLinks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navLink {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    text-decoration: none;
+    color: #64748B;
+    font-weight: 500;
+    font-size: 0.9375rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.navLink:hover {
+    color: #8B5CF6;
+    background: rgba(139, 92, 246, 0.08);
+}
+
+.navLink.active {
+    color: #8B5CF6;
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.navIcon {
+    font-size: 1.1rem;
+}
+
+/* Profile Section */
+.profileSection {
+    position: relative;
+}
+
+.profileButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.profileButton:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8B5CF6 0%, #14B8A6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.25);
+}
+
+.chevron {
+    color: #64748B;
+    transition: transform 0.3s ease;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+/* Dropdown */
+.dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 200px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0.5rem;
+    animation: dropdownFade 0.2s ease;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    color: #475569;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.dropdownItem:hover {
+    background: rgba(139, 92, 246, 0.08);
+    color: #8B5CF6;
+}
+
+.dropdownDivider {
+    margin: 0.5rem 0;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Mobile Menu Button */
+.mobileMenuButton {
+    display: none;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background 0.3s ease;
+}
+
+.mobileMenuButton:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.hamburger {
+    position: relative;
+    width: 22px;
+    height: 2px;
+    background: #475569;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger::before,
+.hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 2px;
+    background: #475569;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger::before {
+    top: -7px;
+}
+
+.hamburger::after {
+    bottom: -7px;
+}
+
+.hamburgerOpen {
+    background: transparent;
+}
+
+.hamburgerOpen::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.hamburgerOpen::after {
+    bottom: 0;
+    transform: rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobileMenu {
+    display: none;
+    flex-direction: column;
+    padding: 1rem;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mobileNavLink {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    text-decoration: none;
+    color: #475569;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.mobileNavLink:hover,
+.mobileNavLink.active {
+    background: rgba(139, 92, 246, 0.08);
+    color: #8B5CF6;
+}
+
+.mobileDivider {
+    margin: 0.5rem 0;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navLinks {
+        display: none;
+    }
+
+    .profileSection {
+        display: none;
+    }
+
+    .mobileMenuButton {
+        display: flex;
+    }
+
+    .mobileMenu {
+        display: flex;
+    }
+
+    .container {
+        padding: 0 1rem;
+        height: 64px;
+    }
+
+    .logo {
+        font-size: 1.25rem;
+    }
+
+    .logoIcon {
+        font-size: 1.5rem;
+    }
+}

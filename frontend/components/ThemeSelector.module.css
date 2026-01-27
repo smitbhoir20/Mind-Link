@@ -1,0 +1,157 @@
+.themeSelector {
+    position: relative;
+}
+
+.themeButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: var(--bg-card);
+    border: 2px solid var(--bg-secondary);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-family: inherit;
+}
+
+.themeButton:hover {
+    border-color: var(--primary-purple);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.themeEmoji {
+    font-size: 1.25rem;
+}
+
+.themeLabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+}
+
+.dropdown {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    right: 0;
+    width: 280px;
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    border: var(--border-light);
+    z-index: 100;
+    overflow: hidden;
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownHeader {
+    padding: 1rem 1.25rem;
+    background: var(--gradient-main);
+    color: white;
+    font-weight: 600;
+    font-size: 0.9375rem;
+}
+
+.themeOptions {
+    padding: 0.5rem;
+}
+
+.themeOption {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-align: left;
+    font-family: inherit;
+}
+
+.themeOption:hover {
+    background: var(--bg-secondary);
+}
+
+.themeOption.active {
+    background: rgba(139, 92, 246, 0.1);
+}
+
+.optionEmoji {
+    font-size: 1.75rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+}
+
+.themeOption.active .optionEmoji {
+    background: var(--gradient-main);
+}
+
+.optionInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.optionName {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+}
+
+.optionDesc {
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+}
+
+.checkmark {
+    color: var(--primary-purple);
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .themeLabel {
+        display: none;
+    }
+
+    .themeButton {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .dropdown {
+        width: 260px;
+        right: -50px;
+    }
+}
