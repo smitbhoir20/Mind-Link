@@ -34,7 +34,12 @@ export default function ChatPage() {
 
     // Connect to Socket.io server
     useEffect(() => {
-        const newSocket = io('http://localhost:5000', {
+        // Use same host as browser but port 5000 for backend
+        const backendUrl = typeof window !== 'undefined'
+            ? `http://${window.location.hostname}:5000`
+            : 'http://localhost:5000';
+
+        const newSocket = io(backendUrl, {
             transports: ['websocket', 'polling'],
         });
 

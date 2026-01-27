@@ -23,7 +23,12 @@ export default function MoodBotPage() {
     const getMoodBotResponse = async (userMessage) => {
         // Try to call the backend API
         try {
-            const response = await fetch('http://localhost:5000/api/moodbot/chat', {
+            // Use same host as browser but port 5000 for backend
+            const backendUrl = typeof window !== 'undefined'
+                ? `http://${window.location.hostname}:5000`
+                : 'http://localhost:5000';
+
+            const response = await fetch(`${backendUrl}/api/moodbot/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
