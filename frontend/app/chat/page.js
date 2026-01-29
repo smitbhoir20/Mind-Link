@@ -11,8 +11,6 @@ export default function ChatPage() {
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
     const [username, setUsername] = useState('');
-    const [aiMoodBot, setAiMoodBot] = useState(false);
-    const [autoModerator, setAutoModerator] = useState(true);
     const [typingUsers, setTypingUsers] = useState([]);
     const [onlineCount, setOnlineCount] = useState({});
     const messagesEndRef = useRef(null);
@@ -25,11 +23,19 @@ export default function ChatPage() {
         { id: 'focus-zone', name: 'Focus Zone', icon: '🎯', color: '#3B82F6' },
     ];
 
-    // Generate random username on mount
+    // Get logged-in user's username
     useEffect(() => {
-        const animals = ['Owl', 'Panda', 'Fox', 'Tiger', 'Wolf', 'Eagle', 'Dolphin', 'Koala', 'Bear', 'Lion'];
-        const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
-        setUsername(`Anonymous ${randomAnimal}`);
+        const userData = localStorage.getItem('mindlink-user');
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                setUsername(user.username);
+            } catch (e) {
+                setUsername('Anonymous User');
+            }
+        } else {
+            setUsername('Anonymous User');
+        }
     }, []);
 
     // Connect to Socket.io server
@@ -100,9 +106,31 @@ export default function ChatPage() {
             // Join new room
             socket.emit('join_room', { room: activeRoom, username });
 
-            // Clear messages for new room
+            // Clear messages and load history from database
             setMessages([]);
             setTypingUsers([]);
+
+            // Load message history from database
+            const backendUrl = typeof window !== 'undefined'
+                ? `http://${window.location.hostname}:5000`
+                : 'http://localhost:5000';
+
+            fetch(`${backendUrl}/api/messages/${activeRoom}?limit=50`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.messages && data.messages.length > 0) {
+                        // Mark messages as not own (they're from history)
+                        const historyMessages = data.messages.map(msg => ({
+                            ...msg,
+                            isOwn: msg.username === username
+                        }));
+                        setMessages(historyMessages);
+                        console.log(`📜 Loaded ${historyMessages.length} messages from history`);
+                    }
+                })
+                .catch(err => {
+                    console.log('Could not load message history:', err.message);
+                });
         }
     }, [activeRoom, socket, connected, username]);
 
@@ -198,32 +226,6 @@ export default function ChatPage() {
                             {activeRoom === room.id && <div className={styles.activeIndicator} style={{ background: room.color }} />}
                         </button>
                     ))}
-                </div>
-
-                {/* Toggles */}
-                <div className={styles.toggles}>
-                    <label className={styles.toggle}>
-                        <input
-                            type="checkbox"
-                            checked={aiMoodBot}
-                            onChange={() => setAiMoodBot(!aiMoodBot)}
-                        />
-                        <span className={styles.toggleSwitch}></span>
-                        <span className={styles.toggleLabel}>
-                            <span>🤖</span> AI MoodBot
-                        </span>
-                    </label>
-                    <label className={styles.toggle}>
-                        <input
-                            type="checkbox"
-                            checked={autoModerator}
-                            onChange={() => setAutoModerator(!autoModerator)}
-                        />
-                        <span className={styles.toggleSwitch}></span>
-                        <span className={styles.toggleLabel}>
-                            <span>🛡️</span> Auto-Moderator
-                        </span>
-                    </label>
                 </div>
             </aside>
 

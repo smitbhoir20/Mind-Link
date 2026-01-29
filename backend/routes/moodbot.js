@@ -1,26 +1,51 @@
 const express = require('express');
 const router = express.Router();
 
-// Try to load Google Generative AI (Gemini)
-let GoogleGenerativeAI;
-let genAI;
-let model;
+// Initialize AI clients
+let groq = null;
+let openai = null;
+let geminiModel = null;
 
-// Check for Gemini API key (Google AI)
-const apiKey = process.env.OPENAI_API_KEY || process.env.GEMINI_API_KEY;
+// Get API keys
+const openaiKey = process.env.OPENAI_API_KEY;
+const groqKey = process.env.GROQ_API_KEY;
+const geminiKey = process.env.GEMINI_API_KEY;
 
-if (apiKey && apiKey.startsWith('AIza')) {
+// Priority: Groq (free & fast) > OpenAI > Gemini
+if (groqKey) {
+    try {
+        const Groq = require('groq-sdk');
+        groq = new Groq({ apiKey: groqKey });
+        console.log('✅ Groq AI initialized successfully (FREE & FAST!)');
+    } catch (e) {
+        console.log('❌ Failed to initialize Groq:', e.message);
+    }
+}
+
+if (!groq && openaiKey && openaiKey.startsWith('sk-')) {
+    try {
+        const OpenAI = require('openai');
+        openai = new OpenAI({ apiKey: openaiKey });
+        console.log('✅ OpenAI initialized successfully');
+    } catch (e) {
+        console.log('❌ Failed to initialize OpenAI:', e.message);
+    }
+}
+
+if (!groq && !openai && geminiKey && geminiKey.startsWith('AIza')) {
     try {
         const { GoogleGenerativeAI } = require('@google/generative-ai');
-        genAI = new GoogleGenerativeAI(apiKey);
-        // Use gemini-1.5-flash (newer, faster model)
-        model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-        console.log('✅ Gemini AI initialized successfully with gemini-1.5-flash');
+        const genAI = new GoogleGenerativeAI(geminiKey);
+        geminiModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+        console.log('✅ Gemini AI initialized successfully');
     } catch (e) {
         console.log('❌ Failed to initialize Gemini:', e.message);
     }
-} else {
-    console.log('ℹ️ No Gemini API key found, using fallback responses');
+}
+
+if (!groq && !openai && !geminiModel) {
+    console.log('ℹ️ No API key found, using fallback responses');
+    console.log('   Get a FREE Groq API key at: https://console.groq.com');
 }
 
 // System prompt for MoodBot
@@ -48,8 +73,62 @@ router.post('/chat', async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
+        // Use Groq if available (FREE & FAST!)
+        if (groq) {
+            try {
+                const messages = [
+                    { role: 'system', content: MOODBOT_SYSTEM_PROMPT },
+                    ...conversationHistory.map(msg => ({
+                        role: msg.role === 'user' ? 'user' : 'assistant',
+                        content: msg.content
+                    })),
+                    { role: 'user', content: message }
+                ];
+
+                const completion = await groq.chat.completions.create({
+                    model: 'llama-3.1-8b-instant',  // Fast & free!
+                    messages: messages,
+                    max_tokens: 200,
+                    temperature: 0.7
+                });
+
+                const text = completion.choices[0].message.content;
+                console.log('✅ Groq response:', text.substring(0, 80) + '...');
+                return res.json({ response: text });
+            } catch (error) {
+                console.error('❌ Groq API error:', error.message);
+            }
+        }
+
+        // Use OpenAI if available
+        if (openai) {
+            try {
+                const messages = [
+                    { role: 'system', content: MOODBOT_SYSTEM_PROMPT },
+                    ...conversationHistory.map(msg => ({
+                        role: msg.role === 'user' ? 'user' : 'assistant',
+                        content: msg.content
+                    })),
+                    { role: 'user', content: message }
+                ];
+
+                const completion = await openai.chat.completions.create({
+                    model: 'gpt-4o-mini',
+                    messages: messages,
+                    max_tokens: 200,
+                    temperature: 0.7
+                });
+
+                const text = completion.choices[0].message.content;
+                console.log('✅ OpenAI response:', text.substring(0, 80) + '...');
+                return res.json({ response: text });
+            } catch (error) {
+                console.error('❌ OpenAI API error:', error.message);
+            }
+        }
+
         // Use Gemini if available
-        if (model) {
+        if (geminiModel) {
             try {
                 let prompt = MOODBOT_SYSTEM_PROMPT + '\n\nConversation:\n';
                 conversationHistory.forEach(msg => {
@@ -58,7 +137,7 @@ router.post('/chat', async (req, res) => {
                 });
                 prompt += `User: ${message}\n\nMoodBot (respond supportively in 2-4 sentences):`;
 
-                const result = await model.generateContent(prompt);
+                const result = await geminiModel.generateContent(prompt);
                 const response = await result.response;
                 const text = response.text();
 
@@ -66,7 +145,6 @@ router.post('/chat', async (req, res) => {
                 return res.json({ response: text });
             } catch (error) {
                 console.error('❌ Gemini API error:', error.message);
-                console.error('Full error:', JSON.stringify(error, null, 2));
             }
         }
 

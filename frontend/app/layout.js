@@ -1,5 +1,5 @@
 import './globals.css';
-import Navbar from '@/components/Navbar';
+import ClientLayout from '@/components/ClientLayout';
 
 export const metadata = {
   title: 'MindLink+ | Student Mental Wellbeing Platform',
@@ -11,8 +11,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Navbar />
-        <main>{children}</main>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

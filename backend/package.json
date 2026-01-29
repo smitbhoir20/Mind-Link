@@ -12,11 +12,15 @@
   "type": "commonjs",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^12.6.2",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "groq-sdk": "^0.37.0",
+    "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.1",
-    "openai": "^6.16.0",
+    "openai": "^6.17.0",
     "socket.io": "^4.8.3"
   }
 }
