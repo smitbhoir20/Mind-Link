@@ -45,93 +45,72 @@ export default function Home() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
-          <div className={styles.badge}>
-            <span>🚀</span> Trusted by 10,000+ students
-          </div>
           <h1 className={styles.heroTitle}>
-            <span className={styles.gradientText}>MindLink+</span>
+            Find Your <span className={styles.highlight}>Headspace</span>
           </h1>
-          <p className={styles.heroSubtitle}>
-            Your Personal Peer Support & Wellbeing Platform
-          </p>
           <p className={styles.heroDescription}>
-            Connect with fellow students, chat with our AI wellness companion,
-            and discover daily self-care practices. You're not alone on this journey.
+            Connect with peers, talk to AI, practice wellness
           </p>
           <div className={styles.heroActions}>
             <a href="/chat" className={styles.btnPrimary}>
-              <span>💬</span> Start Chatting
+              Start Chatting
             </a>
             <a href="/moodbot" className={styles.btnSecondary}>
-              <span>🤖</span> Talk to MoodBot
+              Talk to MoodBot
             </a>
-          </div>
-          <div className={styles.trustBadges}>
-            <span className={styles.trustItem}>🔒 100% Anonymous</span>
-            <span className={styles.trustItem}>🛡️ Safe & Moderated</span>
-            <span className={styles.trustItem}>💜 Free Forever</span>
-          </div>
-        </div>
-        <div className={styles.heroVisual}>
-          <div className={styles.heroGlow}></div>
-          <div className={styles.floatingCard}>
-            <span className={styles.floatingEmoji}>🧠</span>
-          </div>
-          <div className={styles.floatingCard} style={{ animationDelay: '0.5s' }}>
-            <span className={styles.floatingEmoji}>💜</span>
-          </div>
-          <div className={styles.floatingCard} style={{ animationDelay: '1s' }}>
-            <span className={styles.floatingEmoji}>✨</span>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className={styles.stats}>
-        <div className={styles.statItem}>
-          <span className={styles.statNumber}>24/7</span>
-          <span className={styles.statLabel}>Support Available</span>
-        </div>
-        <div className={styles.statDivider}></div>
-        <div className={styles.statItem}>
-          <span className={styles.statNumber}>100%</span>
-          <span className={styles.statLabel}>Anonymous & Safe</span>
-        </div>
-        <div className={styles.statDivider}></div>
-        <div className={styles.statItem}>
-          <span className={styles.statNumber}>10K+</span>
-          <span className={styles.statLabel}>Students Helped</span>
-        </div>
-        <div className={styles.statDivider}></div>
-        <div className={styles.statItem}>
-          <span className={styles.statNumber}>∞</span>
-          <span className={styles.statLabel}>Community Love</span>
+      {/* Categories Section */}
+      <section className={styles.categories}>
+        <div className={styles.maxWidth}>
+          <h2 className={styles.sectionTitle}>What kind of support are you looking for?</h2>
+          <div className={styles.categoryGrid}>
+            <a href="/chat?room=exam-stress" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>📚</div>
+              <h3>Exam Stress</h3>
+            </a>
+            <a href="/chat?room=career-talk" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>💼</div>
+              <h3>Career Talk</h3>
+            </a>
+            <a href="/moodbot" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>🤖</div>
+              <h3>AI Companion</h3>
+            </a>
+            <a href="/chat?room=positive-vibes" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>✨</div>
+              <h3>Positive Vibes</h3>
+            </a>
+            <a href="/selfcare" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>🌿</div>
+              <h3>Self-Care</h3>
+            </a>
+            <a href="/chat" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>💬</div>
+              <h3>Peer Support</h3>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className={styles.features}>
-        <div className={styles.sectionHeader}>
-          <span className={styles.sectionBadge}>Features</span>
-          <h2 className={styles.sectionTitle}>
-            Everything you need for <span className={styles.gradientText}>mental wellness</span>
-          </h2>
-          <p className={styles.sectionSubtitle}>
-            Designed by students, for students. Every feature focuses on creating a safe,
-            supportive environment for your mental health journey.
-          </p>
-        </div>
-        <div className={styles.featuresGrid}>
-          {features.map((feature, index) => (
-            <FeatureCard
-              key={index}
-              icon={feature.icon}
-              title={feature.title}
-              description={feature.description}
-              href={feature.href}
-              color={feature.color}
-            />
-          ))}
+        <div className={styles.maxWidth}>
+          <h2 className={styles.sectionTitle}>Features designed for your wellness</h2>
+          <div className={styles.featuresGrid}>
+            {features.map((feature, index) => (
+              <FeatureCard
+                key={index}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                href={feature.href}
+                color={feature.color}
+              />
+            ))}
+          </div>
         </div>
       </section>
 

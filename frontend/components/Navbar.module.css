@@ -2,11 +2,11 @@
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .container {
@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 72px;
+    height: 70px;
 }
 
 /* Logo */
@@ -25,9 +25,11 @@
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    font-weight: 800;
-    font-size: 1.5rem;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: #5B4E8F;
     transition: transform 0.3s ease;
+    font-family: 'Poppins', sans-serif;
 }
 
 .logo:hover {
@@ -52,7 +54,7 @@
 }
 
 .logoText {
-    background: linear-gradient(135deg, #8B5CF6 0%, #14B8A6 50%, #60A5FA 100%);
+    background: linear-gradient(135deg, #5B4E8F 0%, #1FA89F 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -73,8 +75,8 @@
     text-decoration: none;
     color: #64748B;
     font-weight: 500;
-    font-size: 0.9375rem;
-    border-radius: 12px;
+    font-size: 0.95rem;
+    border-radius: 50px;
     transition: all 0.3s ease;
 }
 
@@ -312,10 +314,6 @@
         display: none;
     }
 
-    .loginButton {
-        display: none;
-    }
-
     .mobileMenuButton {
         display: flex;
     }
@@ -336,79 +334,4 @@
     .logoIcon {
         font-size: 1.5rem;
     }
-}
-
-/* Login Button */
-.loginButton {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.625rem 1.25rem;
-    background: var(--gradient-main);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9375rem;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
-}
-
-.loginButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
-}
-
-/* Username in profile button */
-.username {
-    font-weight: 600;
-    color: #475569;
-    font-size: 0.9375rem;
-}
-
-/* Dropdown Header */
-.dropdownHeader {
-    padding: 0.75rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
-.dropdownHeader strong {
-    color: #1E293B;
-    font-size: 0.9375rem;
-}
-
-.dropdownHeader span {
-    color: #64748B;
-    font-size: 0.8125rem;
-}
-
-/* Mobile User Info */
-.mobileUserInfo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem;
-    background: rgba(139, 92, 246, 0.05);
-    border-radius: 12px;
-    margin-bottom: 0.5rem;
-}
-
-.mobileAvatar {
-    font-size: 2rem;
-}
-
-.mobileUserInfo div {
-    display: flex;
-    flex-direction: column;
-}
-
-.mobileUserInfo strong {
-    color: #1E293B;
-    font-size: 0.9375rem;
-}
-
-.mobileUserInfo small {
-    color: #64748B;
-    font-size: 0.8125rem;
 }

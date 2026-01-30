@@ -9,13 +9,18 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "has-flag": "^5.0.1",
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "socket.io-client": "^4.8.3"
+    "socket.io-client": "^4.8.3",
+    "supports-color": "^10.2.2"
   },
   "devDependencies": {
     "eslint": "^9",
     "eslint-config-next": "16.1.4"
+  },
+  "optionalDependencies": {
+    "@next/swc-win32-x64-msvc": "^16.1.6"
   }
 }

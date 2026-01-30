@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap');
 
 :root,
 [data-theme="calm"] {
-  /* Primary Colors - Calm Theme (Default) */
-  --primary-purple: #8B5CF6;
-  --primary-teal: #14B8A6;
-  --primary-blue: #60A5FA;
-  --primary-pink: #EC4899;
-  --primary-accent: #8B5CF6;
+  /* Primary Colors - Headspace-inspired */
+  --primary-purple: #5B4E8F;
+  --primary-teal: #1FA89F;
+  --primary-blue: #3B82F6;
+  --primary-pink: #FB5B7A;
+  --primary-accent: #5B4E8F;
 
   /* Gradients */
   --gradient-main: linear-gradient(135deg, #8B5CF6 0%, #14B8A6 50%, #60A5FA 100%);
@@ -18,11 +18,11 @@
   --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
 
   /* Backgrounds */
-  --bg-primary: #F8FAFC;
-  --bg-secondary: #F1F5F9;
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F5F5;
   --bg-dark: #1E293B;
-  --bg-card: rgba(255, 255, 255, 0.85);
-  --bg-glass: rgba(255, 255, 255, 0.25);
+  --bg-card: rgba(255, 255, 255, 1);
+  --bg-glass: rgba(255, 255, 255, 0.95);
 
   /* Text Colors */
   --text-primary: #1E293B;
