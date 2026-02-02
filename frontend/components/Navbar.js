@@ -45,22 +45,16 @@ export default function Navbar() {
   };
 
   const navLinks = [
-    { href: '/', label: 'Home', icon: '🏠' },
-    { href: '/chat', label: 'Chat', icon: '💬' },
-    { href: '/moodbot', label: 'MoodBot', icon: '🤖' },
-    { href: '/selfcare', label: 'Self-Care', icon: '🌿' },
-    { href: '/about', label: 'About', icon: 'ℹ️' },
+    { href: '/', label: 'Home' },
+    { href: '/chat', label: 'Chat' },
+    { href: '/moodbot', label: 'MoodBot' },
+    { href: '/selfcare', label: 'Self-Care' },
+    { href: '/about', label: 'About' },
   ];
 
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
-        {/* Logo */}
-        <Link href="/" className={styles.logo}>
-          <span className={styles.logoIcon}>🧠</span>
-          <span className={styles.logoText}>MindLink+</span>
-        </Link>
-
         {/* Desktop Navigation */}
         <div className={styles.navLinks}>
           {navLinks.map((link) => (
@@ -69,76 +63,71 @@ export default function Navbar() {
               href={link.href}
               className={`${styles.navLink} ${pathname === link.href ? styles.active : ''}`}
             >
-              <span className={styles.navIcon}>{link.icon}</span>
               {link.label}
             </Link>
           ))}
         </div>
 
-        {/* Theme Selector */}
-        <ThemeSelector />
+        {/* Logo - Centered */}
+        <Link href="/" className={styles.logo}>
+          <span className={styles.logoText}>MindLink</span>
+        </Link>
 
-        {/* Auth Section */}
-        {user ? (
-          /* Logged in - Profile Dropdown */
-          <div className={styles.profileSection} ref={dropdownRef}>
-            <button
-              className={styles.profileButton}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              aria-label="Profile menu"
-            >
-              <div className={styles.avatar}>
-                <span>{user.avatar || '😊'}</span>
-              </div>
-              <span className={styles.username}>{user.username}</span>
-              <svg
-                className={`${styles.chevron} ${isDropdownOpen ? styles.chevronOpen : ''}`}
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
+        {/* Right Section */}
+        <div className={styles.rightSection}>
+          <ThemeSelector />
+
+          {/* Auth Section */}
+          {user ? (
+            /* Logged in - Profile Dropdown */
+            <div className={styles.profileSection} ref={dropdownRef}>
+              <button
+                className={styles.profileButton}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                aria-label="Profile menu"
               >
-                <path d="M6 9l6 6 6-6" />
-              </svg>
-            </button>
-
-            {isDropdownOpen && (
-              <div className={styles.dropdown}>
-                <div className={styles.dropdownHeader}>
-                  <strong>{user.username}</strong>
-                  <span>{user.email}</span>
+                <div className={styles.menuIcon}>
+                  <span></span>
+                  <span></span>
+                  <span></span>
                 </div>
-                <hr className={styles.dropdownDivider} />
-                <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>
-                  <span>👤</span> View Profile
-                </Link>
-                <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>
-                  <span>⚙️</span> Settings
-                </Link>
-                <hr className={styles.dropdownDivider} />
-                <button className={styles.dropdownItem} onClick={handleLogout}>
-                  <span>🚪</span> Logout
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          /* Not logged in - Login Button */
-          <Link href="/auth" className={styles.loginButton}>
-            Sign In
-          </Link>
-        )}
+              </button>
 
-        {/* Mobile Menu Button */}
-        <button
-          className={styles.mobileMenuButton}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}></span>
-        </button>
+              {isDropdownOpen && (
+                <div className={styles.dropdown}>
+                  <div className={styles.dropdownHeader}>
+                    <strong>{user.username}</strong>
+                  </div>
+                  <hr className={styles.dropdownDivider} />
+                  <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>
+                    <span>👤</span> View Profile
+                  </Link>
+                  <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>
+                    <span>⚙️</span> Settings
+                  </Link>
+                  <hr className={styles.dropdownDivider} />
+                  <button className={styles.dropdownItem} onClick={handleLogout}>
+                    <span>🚪</span> Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            /* Not logged in - Login Button */
+            <Link href="/auth" className={styles.loginButton}>
+              Sign In
+            </Link>
+          )}
+
+          {/* Mobile Menu Button */}
+          <button
+            className={styles.mobileMenuButton}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}></span>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
@@ -151,7 +140,6 @@ export default function Navbar() {
               className={`${styles.mobileNavLink} ${pathname === link.href ? styles.active : ''}`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <span className={styles.navIcon}>{link.icon}</span>
               {link.label}
             </Link>
           ))}

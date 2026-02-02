@@ -15,42 +15,23 @@
     padding: 0 1.5rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     height: 70px;
 }
 
-/* Logo */
+/* Logo - Centered */
 .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 2rem;
+    /* Increased from 1.6rem */
     color: #5B4E8F;
-    transition: transform 0.3s ease;
     font-family: 'Poppins', sans-serif;
-}
-
-.logo:hover {
-    transform: scale(1.02);
-}
-
-.logoIcon {
-    font-size: 1.75rem;
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-3px);
-    }
 }
 
 .logoText {
@@ -64,34 +45,48 @@
 .navLinks {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1.5rem;
+    margin-right: auto;
+    /* Push everything else to the right, but logo is absolute so this stays left */
 }
 
 .navLink {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.625rem 1rem;
     text-decoration: none;
     color: #64748B;
     font-weight: 500;
     font-size: 0.95rem;
-    border-radius: 50px;
     transition: all 0.3s ease;
+    position: relative;
 }
 
-.navLink:hover {
-    color: #8B5CF6;
-    background: rgba(139, 92, 246, 0.08);
-}
-
+.navLink:hover,
 .navLink.active {
     color: #8B5CF6;
-    background: rgba(139, 92, 246, 0.1);
 }
 
-.navIcon {
-    font-size: 1.1rem;
+/* Underline effect for nav links */
+.navLink::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background: #8B5CF6;
+    transition: width 0.3s ease;
+}
+
+.navLink:hover::after,
+.navLink.active::after {
+    width: 100%;
+}
+
+/* Right Section (Theme + Auth) */
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
 }
 
 /* Profile Section */
@@ -102,7 +97,7 @@
 .profileButton {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
     padding: 0.5rem;
     background: none;
     border: none;
@@ -115,33 +110,33 @@
     background: rgba(0, 0, 0, 0.04);
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #8B5CF6 0%, #14B8A6 100%);
+/* 3-line Menu Icon */
+.menuIcon {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.25);
+    flex-direction: column;
+    gap: 5px;
+    width: 24px;
 }
 
-.chevron {
-    color: #64748B;
-    transition: transform 0.3s ease;
+.menuIcon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #5B4E8F;
+    border-radius: 2px;
+    transition: all 0.3s ease;
 }
 
-.chevronOpen {
-    transform: rotate(180deg);
+.profileButton:hover .menuIcon span {
+    background-color: #8B5CF6;
 }
 
 /* Dropdown */
 .dropdown {
     position: absolute;
-    top: calc(100% + 8px);
+    top: calc(100% + 12px);
     right: 0;
-    min-width: 200px;
+    width: 220px;
     background: white;
     border-radius: 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
