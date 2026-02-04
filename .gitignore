@@ -41,3 +41,8 @@ coverage/
 *.db
 *.db-shm
 *.db-wal
+backend/pnpm-lock.yaml
+.gitignore
+backend/pnpm-workspace.yaml
+frontend/pnpm-lock.yaml
+frontend/pnpm-workspace.yaml

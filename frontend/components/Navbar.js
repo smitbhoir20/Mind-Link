@@ -46,6 +46,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'Home' },
+    { href: '/buddy', label: 'Buddy Chat' },
     { href: '/chat', label: 'Chat' },
     { href: '/moodbot', label: 'MoodBot' },
     { href: '/selfcare', label: 'Self-Care' },

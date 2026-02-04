@@ -11,6 +11,13 @@ export default function Home() {
       color: 'purple',
     },
     {
+      icon: '🤝',
+      title: 'Buddy Chat (P2P)',
+      description: 'Match with one peer based on mood and interests, then chat directly in a private session.',
+      href: '/buddy',
+      color: 'teal',
+    },
+    {
       icon: '🤖',
       title: 'AI Mood Bot',
       description: 'Chat with our AI companion that provides supportive, calming, and motivational responses whenever you need someone to talk to.',
@@ -70,6 +77,10 @@ export default function Home() {
             <a href="/chat?room=exam-stress" className={styles.categoryCard}>
               <div className={styles.categoryIcon}>📚</div>
               <h3>Exam Stress</h3>
+            </a>
+            <a href="/buddy" className={styles.categoryCard}>
+              <div className={styles.categoryIcon}>🤝</div>
+              <h3>Buddy Chat</h3>
             </a>
             <a href="/chat?room=career-talk" className={styles.categoryCard}>
               <div className={styles.categoryIcon}>💼</div>

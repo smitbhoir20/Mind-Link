@@ -56,6 +56,39 @@ app.get('/api/rooms', (req, res) => {
 // Track users in rooms
 const roomUsers = {};
 
+// ===== P2P Matchmaking (Socket.io Signaling Only) =====
+const waitingQueue = [];
+const activeMatches = new Map();
+
+function removeFromQueue(socketId) {
+    const index = waitingQueue.findIndex((entry) => entry.socketId === socketId);
+    if (index !== -1) {
+        waitingQueue.splice(index, 1);
+        return true;
+    }
+    return false;
+}
+
+function getMatch(matchId) {
+    return activeMatches.get(matchId);
+}
+
+function endMatch(matchId, reason = 'ended') {
+    const match = activeMatches.get(matchId);
+    if (!match) return;
+
+    const { a, b } = match;
+    io.to(a.socketId).emit('match_end', { matchId, reason });
+    io.to(b.socketId).emit('match_end', { matchId, reason });
+    activeMatches.delete(matchId);
+}
+
+function getPeerSocketId(match, socketId) {
+    if (match.a.socketId === socketId) return match.b.socketId;
+    if (match.b.socketId === socketId) return match.a.socketId;
+    return null;
+}
+
 // Socket.io connection handling
 io.on('connection', (socket) => {
     console.log('✅ User connected:', socket.id);
@@ -141,6 +174,130 @@ io.on('connection', (socket) => {
         socket.to(room).emit('user_stopped_typing', { username });
     });
 
+    // ===== P2P Matchmaking (Socket.io Signaling Only) =====
+    socket.on('match_join', (data) => {
+        const { username, mood, interests } = data || {};
+
+        // Remove from queue if already waiting
+        removeFromQueue(socket.id);
+
+        const entry = {
+            socketId: socket.id,
+            username: username || 'Anonymous',
+            mood: mood || 'neutral',
+            interests: interests || [],
+            joinedAt: Date.now()
+        };
+
+        if (waitingQueue.length > 0) {
+            const other = waitingQueue.shift();
+            const matchId = `match_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+            const initiatorSocketId = socket.id < other.socketId ? socket.id : other.socketId;
+
+            const match = {
+                id: matchId,
+                a: entry,
+                b: other,
+                initiatorSocketId,
+                accepted: {
+                    [entry.socketId]: false,
+                    [other.socketId]: false
+                }
+            };
+            activeMatches.set(matchId, match);
+
+            io.to(entry.socketId).emit('match_found', {
+                matchId,
+                isInitiator: initiatorSocketId === entry.socketId,
+                peer: { username: other.username, mood: other.mood, interests: other.interests }
+            });
+            io.to(other.socketId).emit('match_found', {
+                matchId,
+                isInitiator: initiatorSocketId === other.socketId,
+                peer: { username: entry.username, mood: entry.mood, interests: entry.interests }
+            });
+        } else {
+            waitingQueue.push(entry);
+            socket.emit('match_waiting', { queueSize: waitingQueue.length });
+        }
+    });
+
+    socket.on('match_cancel', () => {
+        removeFromQueue(socket.id);
+    });
+
+    socket.on('match_accept', (data) => {
+        const { matchId } = data || {};
+        const match = getMatch(matchId);
+        if (!match) return;
+
+        match.accepted[socket.id] = true;
+        const peerSocketId = getPeerSocketId(match, socket.id);
+        if (peerSocketId) {
+            io.to(peerSocketId).emit('match_peer_accepted', { matchId });
+        }
+
+        const allAccepted = Object.values(match.accepted).every(Boolean);
+        if (allAccepted) {
+            io.to(match.a.socketId).emit('match_ready', {
+                matchId,
+                isInitiator: match.initiatorSocketId === match.a.socketId
+            });
+            io.to(match.b.socketId).emit('match_ready', {
+                matchId,
+                isInitiator: match.initiatorSocketId === match.b.socketId
+            });
+        }
+    });
+
+    socket.on('match_reject', (data) => {
+        const { matchId } = data || {};
+        const match = getMatch(matchId);
+        if (!match) return;
+
+        const peerSocketId = getPeerSocketId(match, socket.id);
+        if (peerSocketId) {
+            io.to(peerSocketId).emit('match_rejected', { matchId });
+        }
+        endMatch(matchId, 'rejected');
+    });
+
+    socket.on('match_end', (data) => {
+        const { matchId, reason } = data || {};
+        endMatch(matchId, reason || 'ended');
+    });
+
+    // WebRTC signaling relay (no message relay)
+    socket.on('webrtc_offer', (data) => {
+        const { matchId, sdp } = data || {};
+        const match = getMatch(matchId);
+        if (!match) return;
+        const peerSocketId = getPeerSocketId(match, socket.id);
+        if (peerSocketId) {
+            io.to(peerSocketId).emit('webrtc_offer', { matchId, sdp });
+        }
+    });
+
+    socket.on('webrtc_answer', (data) => {
+        const { matchId, sdp } = data || {};
+        const match = getMatch(matchId);
+        if (!match) return;
+        const peerSocketId = getPeerSocketId(match, socket.id);
+        if (peerSocketId) {
+            io.to(peerSocketId).emit('webrtc_answer', { matchId, sdp });
+        }
+    });
+
+    socket.on('webrtc_ice', (data) => {
+        const { matchId, candidate } = data || {};
+        const match = getMatch(matchId);
+        if (!match) return;
+        const peerSocketId = getPeerSocketId(match, socket.id);
+        if (peerSocketId) {
+            io.to(peerSocketId).emit('webrtc_ice', { matchId, candidate });
+        }
+    });
+
     // Disconnect
     socket.on('disconnect', () => {
         console.log('❌ User disconnected:', socket.id);
@@ -153,6 +310,16 @@ io.on('connection', (socket) => {
                     room,
                     count: roomUsers[room].size
                 });
+            }
+        }
+
+        // Remove from matchmaking queue
+        removeFromQueue(socket.id);
+
+        // End match if active
+        for (const [matchId, match] of activeMatches.entries()) {
+            if (match.a.socketId === socket.id || match.b.socketId === socket.id) {
+                endMatch(matchId, 'peer_disconnected');
             }
         }
     });
