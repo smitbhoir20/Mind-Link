@@ -71,7 +71,7 @@ function initializeDatabase() {
     const defaultRooms = [
         ['exam-stress', 'Exam Stress', 'A safe space to discuss exam anxiety and study tips', '📚', '#EF4444'],
         ['career-talk', 'Career Talk', 'Discuss career paths, internships, and future plans', '💼', '#F59E0B'],
-        ['positive-vibes', 'Positive Vibes', 'Share positivity, gratitude, and uplifting moments', '✨', '#10B981'],
+        ['peer-support', 'Peer Support', 'A safe space to support each other', '💬', '#10B981'],
         ['focus-zone', 'Focus Zone', 'Stay focused and accountable with study buddies', '🎯', '#3B82F6']
     ];
 
@@ -184,6 +184,12 @@ function getChatRooms() {
     return stmt.all();
 }
 
+// Clear all messages in a room
+function clearRoomMessages(roomId) {
+    const stmt = db.prepare('DELETE FROM messages WHERE room_id = ?');
+    stmt.run(roomId);
+}
+
 // Initialize on load
 initializeDatabase();
 
@@ -199,6 +205,7 @@ module.exports = {
     // Message functions
     saveMessage,
     getMessages,
-    getChatRooms
+    getChatRooms,
+    clearRoomMessages
 };
 

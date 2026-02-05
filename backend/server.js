@@ -5,7 +5,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 
 // Import SQLite database
-const { saveMessage, getMessages, getChatRooms } = require('./db/sqlite');
+const { saveMessage, getMessages, getChatRooms, clearRoomMessages } = require('./db/sqlite');
 
 const app = express();
 const server = http.createServer(app);
@@ -39,6 +39,23 @@ app.get('/api/messages/:roomId', (req, res) => {
     } catch (error) {
         console.error('Error fetching messages:', error);
         res.status(500).json({ error: 'Failed to fetch messages' });
+    }
+});
+
+// API endpoint to clear message history
+app.delete('/api/messages/:roomId', (req, res) => {
+    try {
+        const { roomId } = req.params;
+        clearRoomMessages(roomId);
+
+        // Notify all clients in the room users that chat is cleared
+        io.to(roomId).emit('chat_cleared', { room: roomId });
+
+        console.log(`🧹 Chat cleared for room: ${roomId}`);
+        res.json({ success: true, message: 'Chat history cleared' });
+    } catch (error) {
+        console.error('Error clearing messages:', error);
+        res.status(500).json({ error: 'Failed to clear messages' });
     }
 });
 

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './FeatureCard.module.css';
 
 export default function FeatureCard({ icon, title, description, href, color = 'purple' }) {
@@ -13,7 +14,7 @@ export default function FeatureCard({ icon, title, description, href, color = 'p
     return (
         <Link href={href} className={`${styles.card} ${colorClasses[color] || colorClasses.purple}`}>
             <div className={styles.iconWrapper}>
-                <span className={styles.icon}>{icon}</span>
+                <Image src={icon} alt={title} width={40} height={40} className={styles.icon} />
             </div>
             <h3 className={styles.title}>{title}</h3>
             <p className={styles.description}>{description}</p>

@@ -2,65 +2,80 @@
 
 :root,
 [data-theme="calm"] {
-  /* Primary Colors - Headspace-inspired */
-  --primary-purple: #5B4E8F;
-  --primary-teal: #1FA89F;
-  --primary-blue: #3B82F6;
-  --primary-pink: #FB5B7A;
-  --primary-accent: #5B4E8F;
+  /* Primary Colors - Cool & Calm */
+  --primary-purple: #6366f1;
+  /* Indigo 500 */
+  --primary-teal: #14b8a6;
+  /* Teal 500 */
+  --primary-blue: #3b82f6;
+  /* Blue 500 */
+  --primary-pink: #ec4899;
+  /* Pink 500 */
+  --primary-accent: #8b5cf6;
+  /* Violet 500 */
 
   /* Gradients */
-  --gradient-main: linear-gradient(135deg, #8B5CF6 0%, #14B8A6 50%, #60A5FA 100%);
-  --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-card: linear-gradient(145deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 100%);
-  --gradient-purple: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
-  --gradient-teal: linear-gradient(135deg, #14B8A6 0%, #2DD4BF 100%);
-  --gradient-blue: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+  --gradient-main: linear-gradient(135deg, #a5b4fc 0%, #6366f1 100%);
+  /* Soft Indigo */
+  --gradient-hero: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  /* Very light indigo */
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 249, 255, 0.6) 100%);
+  --gradient-purple: linear-gradient(135deg, #c4b5fd 0%, #8b5cf6 100%);
+  --gradient-teal: linear-gradient(135deg, #99f6e4 0%, #14b8a6 100%);
+  --gradient-blue: linear-gradient(135deg, #bfdbfe 0%, #3b82f6 100%);
 
   /* Backgrounds */
-  --bg-primary: #FFFFFF;
-  --bg-secondary: #F5F5F5;
-  --bg-dark: #1E293B;
-  --bg-card: rgba(255, 255, 255, 1);
-  --bg-glass: rgba(255, 255, 255, 0.95);
+  --bg-primary: #f0f9ff;
+  /* Alice Blue / Slate 50 */
+  --bg-secondary: #e0f2fe;
+  /* Light Blue 100 */
+  --bg-dark: #1e293b;
+  /* Slate 800 */
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-glass: rgba(255, 255, 255, 0.6);
 
   /* Text Colors */
-  --text-primary: #1E293B;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
-  --text-light: #F8FAFC;
+  --text-primary: #334155;
+  /* Slate 700 */
+  --text-secondary: #64748b;
+  /* Slate 500 */
+  --text-muted: #94a3b8;
+  /* Slate 400 */
+  --text-light: #f8fafc;
+  /* Slate 50 */
 
   /* Status Colors */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --error: #EF4444;
-  --info: #3B82F6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-  --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.3);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
-  --shadow-card-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 1px 2px 0 rgba(148, 163, 184, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(148, 163, 184, 0.1), 0 2px 4px -1px rgba(148, 163, 184, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(148, 163, 184, 0.1), 0 4px 6px -2px rgba(148, 163, 184, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(148, 163, 184, 0.1), 0 10px 10px -5px rgba(148, 163, 184, 0.04);
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+  /* Indigo glow */
+  --shadow-card: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --shadow-card-hover: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
 
   /* Borders */
-  --border-light: 1px solid rgba(0, 0, 0, 0.05);
-  --border-glass: 1px solid rgba(255, 255, 255, 0.2);
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  --border-light: 1px solid rgba(255, 255, 255, 0.6);
+  --border-glass: 1px solid rgba(255, 255, 255, 0.6);
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast: 0.15s ease;
-  --transition-base: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Theme Name */
-  --theme-emoji: 😌;
+  --theme-emoji: 🧊;
 }
 
 /* ☀️ Happy Theme - DEEP AMBER - Rich, warm, golden */

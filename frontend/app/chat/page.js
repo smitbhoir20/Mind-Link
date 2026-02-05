@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { io } from 'socket.io-client';
 import styles from './page.module.css';
 
@@ -15,27 +16,55 @@ export default function ChatPage() {
     const [onlineCount, setOnlineCount] = useState({});
     const messagesEndRef = useRef(null);
     const typingTimeoutRef = useRef(null);
+    const aiMoodBot = true; // Enable MoodBot by default
 
+    const searchParams = useSearchParams();
     const rooms = [
         { id: 'exam-stress', name: 'Exam Stress', icon: '📚', color: '#EF4444' },
         { id: 'career-talk', name: 'Career Talk', icon: '💼', color: '#F59E0B' },
-        { id: 'positive-vibes', name: 'Positive Vibes', icon: '✨', color: '#10B981' },
+        { id: 'peer-support', name: 'Peer Support', icon: '💬', color: '#10B981' },
         { id: 'focus-zone', name: 'Focus Zone', icon: '🎯', color: '#3B82F6' },
     ];
 
-    // Get logged-in user's username
+    // Handle room query parameter
     useEffect(() => {
-        const userData = localStorage.getItem('mindlink-user');
-        if (userData) {
-            try {
-                const user = JSON.parse(userData);
-                setUsername(user.username);
-            } catch (e) {
-                setUsername('Anonymous User');
+        const roomParam = searchParams.get('room');
+        if (roomParam) {
+            const roomExists = rooms.some(r => r.id === roomParam);
+            if (roomExists) {
+                setActiveRoom(roomParam);
             }
-        } else {
-            setUsername('Anonymous User');
         }
+    }, [searchParams]);
+
+    // Anonymous name components
+    const adjectives = [
+        'Neon', 'Cosmic', 'Swift', 'Silent', 'Brave', 'Gentle', 'Happy', 'Calm',
+        'Bright', 'Clever', 'Wild', 'Misty', 'Crystal', 'Solar', 'Lunar', 'Starry'
+    ];
+    const animals = [
+        'Tiger', 'Lion', 'Eagle', 'Dolphin', 'Panda', 'Wolf', 'Fox', 'Owl',
+        'Hawk', 'Bear', 'Falcon', 'Phoenix', 'Dragon', 'Koala', 'Lynx', 'Raven'
+    ];
+
+    const generateAnonymousName = () => {
+        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const animal = animals[Math.floor(Math.random() * animals.length)];
+        const number = Math.floor(Math.random() * 100);
+        return `${adj} ${animal} #${number}`;
+    };
+
+    // Get or generate anonymous identity
+    useEffect(() => {
+        // Check for existing anonymous identity
+        let anonName = localStorage.getItem('mindlink-anonymous-name');
+
+        if (!anonName) {
+            anonName = generateAnonymousName();
+            localStorage.setItem('mindlink-anonymous-name', anonName);
+        }
+
+        setUsername(anonName);
     }, []);
 
     // Connect to Socket.io server
@@ -88,6 +117,12 @@ export default function ChatPage() {
         // Handle user count updates
         newSocket.on('room_users', (data) => {
             setOnlineCount(prev => ({ ...prev, [data.room]: data.count }));
+        });
+
+        // Handle cleared chat
+        newSocket.on('chat_cleared', (data) => {
+            console.log('🧹 Chat cleared by a user');
+            setMessages([]);
         });
 
         setSocket(newSocket);
@@ -194,6 +229,26 @@ export default function ChatPage() {
         }
     };
 
+    const handleClearChat = async () => {
+        if (!confirm('Are you sure you want to clear the chat history for everyone? This cannot be undone.')) {
+            return;
+        }
+
+        const backendUrl = typeof window !== 'undefined'
+            ? `http://${window.location.hostname}:5000`
+            : 'http://localhost:5000';
+
+        try {
+            await fetch(`${backendUrl}/api/messages/${activeRoom}`, {
+                method: 'DELETE',
+            });
+            // Socket event will handle the UI update
+        } catch (error) {
+            console.error('Failed to clear chat:', error);
+            alert('Failed to clear chat');
+        }
+    };
+
     const currentRoom = rooms.find(r => r.id === activeRoom);
     const roomOnlineCount = onlineCount[activeRoom] || 0;
 
@@ -246,6 +301,16 @@ export default function ChatPage() {
                         </div>
                     </div>
                     <div className={styles.chatActions}>
+                        <button
+                            className={styles.iconButton}
+                            title="Clear Chat"
+                            onClick={handleClearChat}
+                            style={{ color: '#EF4444' }}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" />
+                            </svg>
+                        </button>
                         <button className={styles.iconButton} title="Room Info">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                 <circle cx="12" cy="12" r="10" />
