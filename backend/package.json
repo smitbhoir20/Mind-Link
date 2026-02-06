@@ -21,6 +21,7 @@
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.16.1",
     "openai": "^6.17.0",
+    "peer": "^0.6.1",
     "socket.io": "^4.8.3"
   }
 }

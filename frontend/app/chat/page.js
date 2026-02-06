@@ -75,7 +75,8 @@ export default function ChatPage() {
             : 'http://localhost:5000';
 
         const newSocket = io(backendUrl, {
-            transports: ['websocket', 'polling'],
+            transports: ['polling'],
+            upgrade: false,
         });
 
         newSocket.on('connect', () => {

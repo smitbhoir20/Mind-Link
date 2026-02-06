@@ -3,6 +3,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const { ExpressPeerServer } = require('peer');
 
 // Import SQLite database
 const { saveMessage, getMessages, getChatRooms, clearRoomMessages } = require('./db/sqlite');
@@ -14,6 +15,10 @@ const io = new Server(server, {
         origin: "*",  // Allow all origins for local network access
         methods: ["GET", "POST"]
     }
+});
+const peerServer = ExpressPeerServer(server, {
+    path: '/peerjs',
+    allow_discovery: false
 });
 
 // Middleware
@@ -28,6 +33,7 @@ const authRoutes = require('./routes/auth');
 app.use('/api', apiRoutes);
 app.use('/api/moodbot', moodbotRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/peerjs', peerServer);
 
 // API endpoint to get message history for a room
 app.get('/api/messages/:roomId', (req, res) => {
@@ -76,6 +82,7 @@ const roomUsers = {};
 // ===== P2P Matchmaking (Socket.io Signaling Only) =====
 const waitingQueue = [];
 const activeMatches = new Map();
+const socketPeerIds = new Map();
 
 function removeFromQueue(socketId) {
     const index = waitingQueue.findIndex((entry) => entry.socketId === socketId);
@@ -104,6 +111,23 @@ function getPeerSocketId(match, socketId) {
     if (match.a.socketId === socketId) return match.b.socketId;
     if (match.b.socketId === socketId) return match.a.socketId;
     return null;
+}
+
+function tryEmitPeerReady(match) {
+    const aPeerId = socketPeerIds.get(match.a.socketId);
+    const bPeerId = socketPeerIds.get(match.b.socketId);
+    if (!aPeerId || !bPeerId) return;
+
+    io.to(match.a.socketId).emit('peer_ready', {
+        matchId: match.id,
+        peerId: bPeerId,
+        isInitiator: match.initiatorSocketId === match.a.socketId
+    });
+    io.to(match.b.socketId).emit('peer_ready', {
+        matchId: match.id,
+        peerId: aPeerId,
+        isInitiator: match.initiatorSocketId === match.b.socketId
+    });
 }
 
 // Socket.io connection handling
@@ -192,6 +216,21 @@ io.on('connection', (socket) => {
     });
 
     // ===== P2P Matchmaking (Socket.io Signaling Only) =====
+    socket.on('peer_register', (data) => {
+        const { peerId } = data || {};
+        if (!peerId) return;
+        socketPeerIds.set(socket.id, peerId);
+
+        for (const match of activeMatches.values()) {
+            if (match.a.socketId === socket.id || match.b.socketId === socket.id) {
+                const allAccepted = Object.values(match.accepted).every(Boolean);
+                if (allAccepted) {
+                    tryEmitPeerReady(match);
+                }
+            }
+        }
+    });
+
     socket.on('match_join', (data) => {
         const { username, mood, interests } = data || {};
 
@@ -256,14 +295,7 @@ io.on('connection', (socket) => {
 
         const allAccepted = Object.values(match.accepted).every(Boolean);
         if (allAccepted) {
-            io.to(match.a.socketId).emit('match_ready', {
-                matchId,
-                isInitiator: match.initiatorSocketId === match.a.socketId
-            });
-            io.to(match.b.socketId).emit('match_ready', {
-                matchId,
-                isInitiator: match.initiatorSocketId === match.b.socketId
-            });
+            tryEmitPeerReady(match);
         }
     });
 
@@ -284,37 +316,6 @@ io.on('connection', (socket) => {
         endMatch(matchId, reason || 'ended');
     });
 
-    // WebRTC signaling relay (no message relay)
-    socket.on('webrtc_offer', (data) => {
-        const { matchId, sdp } = data || {};
-        const match = getMatch(matchId);
-        if (!match) return;
-        const peerSocketId = getPeerSocketId(match, socket.id);
-        if (peerSocketId) {
-            io.to(peerSocketId).emit('webrtc_offer', { matchId, sdp });
-        }
-    });
-
-    socket.on('webrtc_answer', (data) => {
-        const { matchId, sdp } = data || {};
-        const match = getMatch(matchId);
-        if (!match) return;
-        const peerSocketId = getPeerSocketId(match, socket.id);
-        if (peerSocketId) {
-            io.to(peerSocketId).emit('webrtc_answer', { matchId, sdp });
-        }
-    });
-
-    socket.on('webrtc_ice', (data) => {
-        const { matchId, candidate } = data || {};
-        const match = getMatch(matchId);
-        if (!match) return;
-        const peerSocketId = getPeerSocketId(match, socket.id);
-        if (peerSocketId) {
-            io.to(peerSocketId).emit('webrtc_ice', { matchId, candidate });
-        }
-    });
-
     // Disconnect
     socket.on('disconnect', () => {
         console.log('❌ User disconnected:', socket.id);
@@ -332,6 +333,7 @@ io.on('connection', (socket) => {
 
         // Remove from matchmaking queue
         removeFromQueue(socket.id);
+        socketPeerIds.delete(socket.id);
 
         // End match if active
         for (const [matchId, match] of activeMatches.entries()) {
