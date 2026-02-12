@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { io } from 'socket.io-client';
 import styles from './page.module.css';
+import { getBackendUrl } from '@/lib/backendUrl';
 
 export default function ChatPage() {
     const [socket, setSocket] = useState(null);
@@ -69,10 +70,7 @@ export default function ChatPage() {
 
     // Connect to Socket.io server
     useEffect(() => {
-        // Use same host as browser but port 5000 for backend
-        const backendUrl = typeof window !== 'undefined'
-            ? `http://${window.location.hostname}:5000`
-            : 'http://localhost:5000';
+        const backendUrl = getBackendUrl();
 
         const newSocket = io(backendUrl, {
             transports: ['polling'],
@@ -147,9 +145,7 @@ export default function ChatPage() {
             setTypingUsers([]);
 
             // Load message history from database
-            const backendUrl = typeof window !== 'undefined'
-                ? `http://${window.location.hostname}:5000`
-                : 'http://localhost:5000';
+            const backendUrl = getBackendUrl();
 
             fetch(`${backendUrl}/api/messages/${activeRoom}?limit=50`)
                 .then(res => res.json())
@@ -235,9 +231,7 @@ export default function ChatPage() {
             return;
         }
 
-        const backendUrl = typeof window !== 'undefined'
-            ? `http://${window.location.hostname}:5000`
-            : 'http://localhost:5000';
+        const backendUrl = getBackendUrl();
 
         try {
             await fetch(`${backendUrl}/api/messages/${activeRoom}`, {
