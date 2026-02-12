@@ -1,5 +1,6 @@
 import FeatureCard from '@/components/FeatureCard';
 import Image from 'next/image';
+import LiveBackground from '@/components/LiveBackground';
 import styles from './page.module.css';
 
 export default function Home() {
@@ -50,6 +51,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
+      <LiveBackground />
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>

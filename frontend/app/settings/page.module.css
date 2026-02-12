@@ -1,0 +1,301 @@
+.container {
+    max-width: 1000px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    animation: slideIn 0.4s ease-out;
+}
+
+.header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+/* Minimalist Grid */
+.settingsGrid {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 0;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.sidebar {
+    background: #f8fafc;
+    padding: 1.5rem 0.75rem;
+    border-right: 1px solid #e2e8f0;
+}
+
+.sidebarTitle {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+}
+
+.navButton {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: transparent;
+    color: #475569;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    margin-bottom: 0.25rem;
+}
+
+.navButton:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.activeNav {
+    background: #fff !important;
+    color: #2563eb !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    font-weight: 600;
+}
+
+.content {
+    padding: 2.5rem 3rem;
+    background: white;
+}
+
+/* Section Header */
+.sectionHeader {
+    margin-bottom: 2rem;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.sectionDesc {
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+/* Grouped Settings */
+.settingsCard {
+    margin-bottom: 2rem;
+}
+
+.settingGroup {
+    margin-bottom: 1.75rem;
+}
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #334155;
+}
+
+.helperText {
+    display: block;
+    font-size: 0.8125rem;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+.inputWrapper {
+    max-width: 440px;
+}
+
+.input {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    color: #1e293b;
+    font-size: 0.9375rem;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.input:disabled {
+    background: #f1f5f9;
+    cursor: not-allowed;
+    color: #64748b;
+}
+
+.saveButton {
+    background: #1e293b;
+    color: white;
+    border: none;
+    padding: 0.625rem 1.5rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.saveButton:hover {
+    background: #0f172a;
+}
+
+/* Toggle Overhaul (Minimalist) */
+.toggleWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.toggleWrapper:last-child {
+    border-bottom: none;
+}
+
+.toggleTitle {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: #1e293b;
+    display: block;
+}
+
+.toggleDesc {
+    font-size: 0.8125rem;
+    color: #64748b;
+}
+
+/* Danger Zone */
+.dangerZone {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #fee2e2;
+}
+
+.dangerTitle {
+    color: #991b1b;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.deleteButton {
+    background: #fff;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deleteButton:hover {
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+/* Toast Notification (Technical) */
+.notification {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: #1e293b;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 1000;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .settingsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+
+    .navButton {
+        width: auto;
+        white-space: nowrap;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .content {
+        padding: 2rem 1.5rem;
+    }
+}

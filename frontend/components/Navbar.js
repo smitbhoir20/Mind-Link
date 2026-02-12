@@ -148,17 +148,22 @@ export default function Navbar() {
           {user ? (
             <>
               <div className={styles.mobileUserInfo}>
-                <span className={styles.mobileAvatar}>{user.avatar || '😊'}</span>
+                <span className={styles.mobileAvatar}>
+                  {user.username ? user.username.charAt(0).toUpperCase() : '?'}
+                </span>
                 <div>
                   <strong>{user.username}</strong>
                   <small>{user.email}</small>
                 </div>
               </div>
               <Link href="/profile" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
-                <span>👤</span> View Profile
+                User Profile
               </Link>
-              <button className={styles.mobileNavLink} onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
-                <span>🚪</span> Logout
+              <Link href="/settings" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
+                Preferences
+              </Link>
+              <button className={styles.mobileNavLink} style={{ border: 'none', background: 'none', width: '100%', textAlign: 'left' }} onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
+                Sign Out
               </button>
             </>
           ) : (

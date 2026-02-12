@@ -1,0 +1,80 @@
+.backgroundContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background-color: var(--bg-primary);
+    pointer-events: none;
+}
+
+.blob1,
+.blob2,
+.blob3 {
+    position: absolute;
+    filter: blur(80px);
+    border-radius: 50%;
+    opacity: 0.15;
+    animation: move 30s infinite alternate ease-in-out;
+    pointer-events: none;
+}
+
+.blob1 {
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, var(--primary-purple) 0%, transparent 70%);
+    top: -15%;
+    left: -15%;
+    animation-duration: 40s;
+}
+
+.blob2 {
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(circle, var(--primary-teal) 0%, transparent 70%);
+    bottom: -20%;
+    right: -15%;
+    animation-duration: 50s;
+    animation-delay: -10s;
+}
+
+.blob3 {
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, var(--primary-blue) 0%, transparent 70%);
+    top: 30%;
+    right: 20%;
+    animation-duration: 35s;
+    animation-delay: -5s;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    pointer-events: none;
+}
+
+@keyframes move {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(5%, 5%) scale(1.05) rotate(5deg);
+    }
+
+    66% {
+        transform: translate(-5%, 8%) scale(0.95) rotate(-5deg);
+    }
+
+    100% {
+        transform: translate(3%, -5%) scale(1) rotate(0deg);
+    }
+}

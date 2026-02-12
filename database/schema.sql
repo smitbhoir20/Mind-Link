@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS selfcare_challenges (
 INSERT INTO chat_rooms (name, description, icon, color) VALUES
 ('Exam Stress', 'A safe space to discuss exam anxiety and study tips', '📚', '#EF4444'),
 ('Career Talk', 'Discuss career paths, internships, and future plans', '💼', '#F59E0B'),
-('Positive Vibes', 'Share positivity, gratitude, and uplifting moments', '✨', '#10B981'),
+('Peer Support', 'A safe space to support each other', '💬', '#10B981'),
 ('Focus Zone', 'Stay focused and accountable with study buddies', '🎯', '#3B82F6');
 
 -- Insert default self-care challenges

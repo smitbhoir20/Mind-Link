@@ -18,11 +18,14 @@ export default function Profile() {
 
     if (!user) return null;
 
+    // Extract initial for professional avatar
+    const initial = user.username ? user.username.charAt(0).toUpperCase() : '?';
+
     return (
         <div className={styles.container}>
             <div className={styles.card}>
                 <div className={styles.avatar}>
-                    {user.avatar || '😊'}
+                    {initial}
                 </div>
                 <h1 className={styles.name}>{user.username}</h1>
                 <p className={styles.email}>{user.email}</p>
@@ -33,8 +36,8 @@ export default function Profile() {
                         <span className={styles.statValue}>Jan 2026</span>
                     </div>
                     <div className={styles.statItem}>
-                        <span className={styles.statLabel}>Status</span>
-                        <span className={styles.statValue}>Active</span>
+                        <span className={styles.statLabel}>Security Status</span>
+                        <span className={styles.statValue} style={{ color: '#10b981' }}>Verified</span>
                     </div>
                 </div>
             </div>

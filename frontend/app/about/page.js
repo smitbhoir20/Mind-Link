@@ -22,7 +22,7 @@ export default function AboutPage() {
         { icon: "🚂", name: "Express.js", description: "Server Framework" },
         { icon: "⚡", name: "Socket.io", description: "Real-time Chat" },
         { icon: "🗄️", name: "MySQL", description: "Database" },
-        { icon: "🤖", name: "OpenAI API", description: "AI Companion" },
+        { icon: "🤖", name: "groq API", description: "AI Companion" },
     ];
 
     const team = [
