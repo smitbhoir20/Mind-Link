@@ -3,13 +3,14 @@
 import { useState, useRef, useEffect } from 'react';
 import styles from './page.module.css';
 import { getBackendUrl } from '@/lib/backendUrl';
+import Icon from '@/components/Icon';
 
 export default function MoodBotPage() {
     const [messages, setMessages] = useState([
         {
             id: 1,
             role: 'bot',
-            content: "Hi there! 👋 I'm MoodBot, your AI wellness companion. I'm here to listen, support, and help you feel better. How are you feeling today?",
+            content: "Hi there!  I'm MoodBot, your AI wellness companion. I'm here to listen, support, and help you feel better. How are you feeling today?",
             time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
         },
     ]);
@@ -46,35 +47,35 @@ export default function MoodBotPage() {
         const lowerMessage = userMessage.toLowerCase();
 
         if (lowerMessage.includes('stress') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
-            return "I can sense you're feeling stressed. Remember, it's completely normal to feel this way sometimes. Try taking a few deep breaths - inhale for 4 counts, hold for 4, exhale for 4. You've overcome challenges before, and you can do it again. 💪 What's specifically on your mind?";
+            return "I can sense you're feeling stressed. Remember, it's completely normal to feel this way sometimes. Try taking a few deep breaths - inhale for 4 counts, hold for 4, exhale for 4. You've overcome challenges before, and you can do it again.  What's specifically on your mind?";
         }
 
         if (lowerMessage.includes('sad') || lowerMessage.includes('down') || lowerMessage.includes('depressed')) {
-            return "I'm sorry you're feeling down. Your feelings are valid, and it takes courage to acknowledge them. Remember, tough times don't last, but tough people do. 💜 Is there something specific that triggered these feelings, or would you like to talk about what might help you feel better?";
+            return "I'm sorry you're feeling down. Your feelings are valid, and it takes courage to acknowledge them. Remember, tough times don't last, but tough people do.  Is there something specific that triggered these feelings, or would you like to talk about what might help you feel better?";
         }
 
         if (lowerMessage.includes('happy') || lowerMessage.includes('good') || lowerMessage.includes('great')) {
-            return "That's wonderful to hear! 🌟 Positive feelings are worth celebrating. What's contributing to your good mood today? I'd love to hear about it!";
+            return "That's wonderful to hear!  Positive feelings are worth celebrating. What's contributing to your good mood today? I'd love to hear about it!";
         }
 
         if (lowerMessage.includes('tired') || lowerMessage.includes('exhausted') || lowerMessage.includes('sleep')) {
-            return "Rest is so important for mental wellbeing. If you're feeling exhausted, your body and mind might be telling you to slow down. Consider taking a short break, maybe a power nap or a gentle walk. 😴 Have you been getting enough sleep lately?";
+            return "Rest is so important for mental wellbeing. If you're feeling exhausted, your body and mind might be telling you to slow down. Consider taking a short break, maybe a power nap or a gentle walk.  Have you been getting enough sleep lately?";
         }
 
         if (lowerMessage.includes('lonely') || lowerMessage.includes('alone')) {
-            return "Feeling lonely can be really hard. But remember, you're not alone in feeling this way - many people experience loneliness. Have you tried our peer chat rooms? Sometimes connecting with others who understand can make a big difference. 💜 What kind of connection are you looking for?";
+            return "Feeling lonely can be really hard. But remember, you're not alone in feeling this way - many people experience loneliness. Have you tried our peer chat rooms? Sometimes connecting with others who understand can make a big difference.  What kind of connection are you looking for?";
         }
 
         if (lowerMessage.includes('exam') || lowerMessage.includes('study') || lowerMessage.includes('test')) {
-            return "Academic pressure can feel overwhelming! Here are some tips: break your study sessions into manageable chunks, take regular breaks, and remember that your worth isn't defined by grades. 📚 Would you like some specific study strategies or just need to vent about the pressure?";
+            return "Academic pressure can feel overwhelming! Here are some tips: break your study sessions into manageable chunks, take regular breaks, and remember that your worth isn't defined by grades.  Would you like some specific study strategies or just need to vent about the pressure?";
         }
 
         if (lowerMessage.includes('thank')) {
-            return "You're so welcome! 💜 I'm always here whenever you need to talk. Remember, taking care of your mental health is a sign of strength, not weakness. Is there anything else on your mind?";
+            return "You're so welcome!  I'm always here whenever you need to talk. Remember, taking care of your mental health is a sign of strength, not weakness. Is there anything else on your mind?";
         }
 
         // Default response
-        return "Thank you for sharing that with me. I'm here to listen and support you. Could you tell me more about how you're feeling? Remember, every emotion is valid, and talking about it is the first step to feeling better. 💜";
+        return "Thank you for sharing that with me. I'm here to listen and support you. Could you tell me more about how you're feeling? Remember, every emotion is valid, and talking about it is the first step to feeling better. ";
     };
 
     const handleSendMessage = async (e) => {
@@ -109,10 +110,10 @@ export default function MoodBotPage() {
     };
 
     const quickPrompts = [
-        "I'm feeling stressed 😰",
-        "I need motivation 💪",
-        "Tell me something positive ✨",
-        "Help me relax 🧘",
+        { text: "I'm feeling stressed", icon: "Wind" },
+        { text: "I need motivation", icon: "Zap" },
+        { text: "Tell me something positive", icon: "Sun" },
+        { text: "Help me relax", icon: "Coffee" },
     ];
 
     return (
@@ -121,7 +122,9 @@ export default function MoodBotPage() {
                 {/* Header */}
                 <header className={styles.header}>
                     <div className={styles.botAvatar}>
-                        <span className={styles.botEmoji}>🤖</span>
+                        <span className={styles.botEmoji}>
+                            <Icon name="Bot" size={24} color="white" />
+                        </span>
                         <span className={styles.onlineIndicator}></span>
                     </div>
                     <div className={styles.headerInfo}>
@@ -138,7 +141,9 @@ export default function MoodBotPage() {
                             className={`${styles.message} ${message.role === 'user' ? styles.userMessage : styles.botMessage}`}
                         >
                             {message.role === 'bot' && (
-                                <div className={styles.messageAvatar}>🤖</div>
+                                <div className={styles.messageAvatar}>
+                                    <Icon name="Bot" size={16} color="white" />
+                                </div>
                             )}
                             <div className={styles.messageContent}>
                                 <div className={styles.messageBubble}>
@@ -151,7 +156,9 @@ export default function MoodBotPage() {
 
                     {isTyping && (
                         <div className={`${styles.message} ${styles.botMessage}`}>
-                            <div className={styles.messageAvatar}>🤖</div>
+                            <div className={styles.messageAvatar}>
+                                <Icon name="Bot" size={16} color="white" />
+                            </div>
                             <div className={styles.typingIndicator}>
                                 <span></span>
                                 <span></span>
@@ -169,9 +176,10 @@ export default function MoodBotPage() {
                         <button
                             key={index}
                             className={styles.quickPrompt}
-                            onClick={() => setInputMessage(prompt)}
+                            onClick={() => setInputMessage(prompt.text)}
                         >
-                            {prompt}
+                            <Icon name={prompt.icon} size={14} />
+                            {prompt.text}
                         </button>
                     ))}
                 </div>
@@ -186,16 +194,14 @@ export default function MoodBotPage() {
                         onChange={(e) => setInputMessage(e.target.value)}
                     />
                     <button type="submit" className={styles.sendButton} disabled={!inputMessage.trim() || isTyping}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                        </svg>
+                        <Icon name="Send" size={20} />
                     </button>
                 </form>
 
                 {/* Disclaimer */}
                 <p className={styles.disclaimer}>
                     MoodBot is an AI companion and not a substitute for professional mental health care.
-                    If you're in crisis, please contact a mental health professional.
+                    If you&apos;re in crisis, please contact a mental health professional.
                 </p>
             </div>
         </div>

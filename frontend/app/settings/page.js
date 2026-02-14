@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
+import Icon from '@/components/Icon';
 
 export default function Settings() {
     const router = useRouter();
@@ -27,7 +28,10 @@ export default function Settings() {
             return;
         }
         const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
+        if (!user || user.email !== parsedUser.email) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setUser(parsedUser);
+        }
         setUsername(parsedUser.username || '');
         setEmail(parsedUser.email || '');
 
@@ -35,7 +39,7 @@ export default function Settings() {
         if (savedNotifications) {
             setNotifications(JSON.parse(savedNotifications));
         }
-    }, [router]);
+    }, [router, user]);
 
     const handleSaveProfile = (e) => {
         e.preventDefault();
@@ -60,9 +64,9 @@ export default function Settings() {
     if (!user) return null;
 
     const tabs = [
-        { id: 'profile', label: 'Profile', icon: '👤' },
-        { id: 'notifications', label: 'Notifications', icon: '🔔' },
-        { id: 'security', label: 'Security', icon: '🛡️' },
+        { id: 'profile', label: 'Profile', icon: 'User' },
+        { id: 'notifications', label: 'Notifications', icon: 'Bell' },
+        { id: 'security', label: 'Security', icon: 'Shield' },
     ];
 
     return (
@@ -81,7 +85,7 @@ export default function Settings() {
                             className={`${styles.navButton} ${activeTab === tab.id ? styles.activeNav : ''}`}
                             onClick={() => setActiveTab(tab.id)}
                         >
-                            <span>{tab.icon}</span>
+                            <Icon name={tab.icon} size={20} />
                             <span className={styles.navLabel}>{tab.label}</span>
                         </button>
                     ))}
@@ -220,7 +224,7 @@ export default function Settings() {
 
             {showNotification && (
                 <div className={styles.notification}>
-                    <span>✓</span> {notificationMsg}
+                    <span></span> {notificationMsg}
                 </div>
             )}
         </div>

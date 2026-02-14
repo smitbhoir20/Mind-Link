@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import styles from './Navbar.module.css';
 import ThemeSelector from './ThemeSelector';
+import Icon from './Icon';
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -19,6 +20,7 @@ export default function Navbar() {
     const userData = localStorage.getItem('mindlink-user');
     if (userData) {
       try {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setUser(JSON.parse(userData));
       } catch (e) {
         localStorage.removeItem('mindlink-user');
@@ -54,7 +56,7 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={`${styles.navbar} backdrop-blur-3xl bg-white/5 border-b border-white/10`}>
       <div className={styles.container}>
         {/* Desktop Navigation */}
         <div className={styles.navLinks}>
@@ -71,6 +73,7 @@ export default function Navbar() {
 
         {/* Logo - Centered */}
         <Link href="/" className={styles.logo}>
+          <Icon name="Brain" className={styles.logoIcon} />
           <span className={styles.logoText}>MindLink</span>
         </Link>
 
@@ -88,9 +91,7 @@ export default function Navbar() {
                 aria-label="Profile menu"
               >
                 <div className={styles.menuIcon}>
-                  <span></span>
-                  <span></span>
-                  <span></span>
+                  <Icon name="User" />
                 </div>
               </button>
 
@@ -101,14 +102,14 @@ export default function Navbar() {
                   </div>
                   <hr className={styles.dropdownDivider} />
                   <Link href="/profile" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>
-                    <span>👤</span> View Profile
+                    <Icon name="User" size={16} /> View Profile
                   </Link>
                   <Link href="/settings" className={styles.dropdownItem} onClick={() => setIsDropdownOpen(false)}>
-                    <span>⚙️</span> Settings
+                    <Icon name="Settings" size={16} /> Settings
                   </Link>
                   <hr className={styles.dropdownDivider} />
                   <button className={styles.dropdownItem} onClick={handleLogout}>
-                    <span>🚪</span> Logout
+                    <Icon name="LogOut" size={16} /> Logout
                   </button>
                 </div>
               )}
@@ -126,7 +127,7 @@ export default function Navbar() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            <span className={`${styles.hamburger} ${isMobileMenuOpen ? styles.hamburgerOpen : ''}`}></span>
+            <Icon name={isMobileMenuOpen ? "X" : "Menu"} />
           </button>
         </div>
       </div>
@@ -168,7 +169,7 @@ export default function Navbar() {
             </>
           ) : (
             <Link href="/auth" className={styles.mobileNavLink} onClick={() => setIsMobileMenuOpen(false)}>
-              <span>🔐</span> Sign In / Sign Up
+              <Icon name="LogIn" size={16} /> Sign In / Sign Up
             </Link>
           )}
         </div>

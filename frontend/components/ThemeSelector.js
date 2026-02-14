@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react';
 import styles from './ThemeSelector.module.css';
 
+import Icon from './Icon';
+
 const themes = [
-    { id: 'calm', emoji: '😌', name: 'Calm', description: 'Peaceful Purple & Teal' },
-    { id: 'happy', emoji: '☀️', name: 'Sunshine', description: 'Bright Golden Warmth' },
-    { id: 'sad', emoji: '🌊', name: 'Ocean', description: 'Deep Calming Blues' },
-    { id: 'energized', emoji: '🔥', name: 'Blazing', description: 'Fiery Red & Orange' },
+    { id: 'calm', icon: 'Feather', name: 'Calm', description: 'Peaceful Purple & Teal' },
+    { id: 'happy', icon: 'Sun', name: 'Sunshine', description: 'Bright Golden Warmth' },
+    { id: 'sad', icon: 'CloudRain', name: 'Ocean', description: 'Deep Calming Blues' },
+    { id: 'energized', icon: 'Zap', name: 'Blazing', description: 'Fiery Red & Orange' },
 ];
 
 export default function ThemeSelector() {
@@ -17,7 +19,10 @@ export default function ThemeSelector() {
     useEffect(() => {
         // Load saved theme from localStorage
         const savedTheme = localStorage.getItem('mindlink-theme') || 'calm';
-        setCurrentTheme(savedTheme);
+        if (savedTheme !== 'calm') {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setCurrentTheme(savedTheme);
+        }
         document.documentElement.setAttribute('data-theme', savedTheme);
     }, []);
 
@@ -35,9 +40,8 @@ export default function ThemeSelector() {
             <button
                 className={styles.themeButton}
                 onClick={() => setIsOpen(!isOpen)}
-                title="Change mood theme"
             >
-                <span className={styles.themeEmoji}>{currentThemeData?.emoji}</span>
+                <Icon name={currentThemeData?.icon || 'Feather'} className={styles.themeIcon} size={20} />
                 <span className={styles.themeLabel}>Mood</span>
             </button>
 
@@ -55,13 +59,13 @@ export default function ThemeSelector() {
                                     className={`${styles.themeOption} ${currentTheme === theme.id ? styles.active : ''}`}
                                     onClick={() => handleThemeChange(theme.id)}
                                 >
-                                    <span className={styles.optionEmoji}>{theme.emoji}</span>
+                                    <Icon name={theme.icon} size={24} className={styles.optionIcon} />
                                     <div className={styles.optionInfo}>
                                         <span className={styles.optionName}>{theme.name}</span>
                                         <span className={styles.optionDesc}>{theme.description}</span>
                                     </div>
                                     {currentTheme === theme.id && (
-                                        <span className={styles.checkmark}>✓</span>
+                                        <span className={styles.checkmark}></span>
                                     )}
                                 </button>
                             ))}

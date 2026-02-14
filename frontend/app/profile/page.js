@@ -13,8 +13,12 @@ export default function Profile() {
             router.push('/auth');
             return;
         }
-        setUser(JSON.parse(userData));
-    }, [router]);
+        const parsed = JSON.parse(userData);
+        if (!user || user.email !== parsed.email) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setUser(parsed);
+        }
+    }, [router, user]);
 
     if (!user) return null;
 

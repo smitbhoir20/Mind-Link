@@ -1,4 +1,4 @@
-# 🧠 MindLink+
+#  MindLink+
 
 **Your Personal Peer Support & Wellbeing Platform**
 
@@ -10,16 +10,16 @@ A modern, student-friendly mental wellbeing web application featuring anonymous 
 ![MySQL](https://img.shields.io/badge/MySQL-8.x-blue?logo=mysql)
 ![OpenAI](https://img.shields.io/badge/OpenAI-API-412991?logo=openai)
 
-## ✨ Features
+##  Features
 
 | Feature | Description |
 |---------|-------------|
-| 💬 **Peer Chat Rooms** | Anonymous themed chat rooms (Exam Stress, Career Talk, Positive Vibes, Focus Zone) |
-| 🤖 **AI MoodBot** | 24/7 AI wellness companion powered by OpenAI |
-| 🌿 **Daily Self-Care** | Personalized daily challenges for mental wellness |
-| 🛡️ **Safe Space** | Anonymous identity protection and moderated environment |
+|  **Peer Chat Rooms** | Anonymous themed chat rooms (Exam Stress, Career Talk, Positive Vibes, Focus Zone) |
+|  **AI MoodBot** | 24/7 AI wellness companion powered by OpenAI |
+|  **Daily Self-Care** | Personalized daily challenges for mental wellness |
+| ️ **Safe Space** | Anonymous identity protection and moderated environment |
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### Prerequisites
 
@@ -82,7 +82,7 @@ cd frontend
 npm run dev
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 trial2/
@@ -108,7 +108,7 @@ trial2/
     └── schema.sql           # Database tables
 ```
 
-## 🎨 Design System
+##  Design System
 
 - **Colors:** Purple (#8B5CF6), Teal (#14B8A6), Light Blue (#60A5FA)
 - **Typography:** Inter (Google Fonts)
@@ -116,7 +116,7 @@ trial2/
 - **Animations:** Hover lift effects, floating icons, smooth transitions
 - **Vibe:** Clean, calming, Gen-Z friendly (not childish, not corporate)
 
-## 🔧 API Endpoints
+##  API Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -124,7 +124,7 @@ trial2/
 | `/api/selfcare/challenge` | GET | Random daily challenge |
 | `/api/moodbot/chat` | POST | Chat with AI MoodBot |
 
-## ⚡ Socket.io Events
+##  Socket.io Events
 
 | Event | Description |
 |-------|-------------|
@@ -133,7 +133,7 @@ trial2/
 | `receive_message` | Receive messages |
 | `typing` / `stop_typing` | Typing indicators |
 
-## 🔐 Environment Variables
+##  Environment Variables
 
 ```env
 # Backend (.env)
@@ -145,7 +145,7 @@ DB_PASSWORD=your_password
 DB_NAME=mindlink
 ```
 
-## 📱 Pages Overview
+##  Pages Overview
 
 1. **Dashboard (/)** - Hero section, feature cards, testimonials, CTA
 2. **Chat (/chat)** - Real-time peer chat rooms with toggle options
@@ -153,17 +153,17 @@ DB_NAME=mindlink
 4. **Self-Care (/selfcare)** - Daily challenge generator with progress
 5. **About (/about)** - Mission, problem/solution, technology stack
 
-## 🎯 Overall Goal
+##  Overall Goal
 
 - Promote mental health awareness among college students
 - Encourage empathy and peer support
 - Make students feel safe, heard, and emotionally supported
 - Present the platform as a real, trustworthy startup
 
-## ⚠️ Important Note
+## ️ Important Note
 
 MindLink+ is a peer support platform and **not a substitute for professional mental health care**. If you're experiencing a crisis, please contact your local mental health helpline.
 
-## 📄 License
+##  License
 
-© 2026 MindLink+. Built with 💜 for student wellbeing.
+© 2026 MindLink+. Built with  for student wellbeing.

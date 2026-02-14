@@ -5,6 +5,31 @@ import { useSearchParams } from 'next/navigation';
 import { io } from 'socket.io-client';
 import styles from './page.module.css';
 import { getBackendUrl } from '@/lib/backendUrl';
+import Icon from '@/components/Icon';
+
+const rooms = [
+    { id: 'exam-stress', name: 'Exam Stress', icon: 'BookOpen', color: '#EF4444' },
+    { id: 'career-talk', name: 'Career Talk', icon: 'Briefcase', color: '#F59E0B' },
+    { id: 'peer-support', name: 'Peer Support', icon: 'Users', color: '#10B981' },
+    { id: 'focus-zone', name: 'Focus Zone', icon: 'Target', color: '#3B82F6' },
+];
+
+// Anonymous name components
+const adjectives = [
+    'Neon', 'Cosmic', 'Swift', 'Silent', 'Brave', 'Gentle', 'Happy', 'Calm',
+    'Bright', 'Clever', 'Wild', 'Misty', 'Crystal', 'Solar', 'Lunar', 'Starry'
+];
+const animals = [
+    'Tiger', 'Lion', 'Eagle', 'Dolphin', 'Panda', 'Wolf', 'Fox', 'Owl',
+    'Hawk', 'Bear', 'Falcon', 'Phoenix', 'Dragon', 'Koala', 'Lynx', 'Raven'
+];
+
+const generateAnonymousName = () => {
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const animal = animals[Math.floor(Math.random() * animals.length)];
+    const number = Math.floor(Math.random() * 100);
+    return `${adj} ${animal} #${number}`;
+};
 
 export default function ChatPage() {
     const [socket, setSocket] = useState(null);
@@ -20,41 +45,19 @@ export default function ChatPage() {
     const aiMoodBot = true; // Enable MoodBot by default
 
     const searchParams = useSearchParams();
-    const rooms = [
-        { id: 'exam-stress', name: 'Exam Stress', icon: '📚', color: '#EF4444' },
-        { id: 'career-talk', name: 'Career Talk', icon: '💼', color: '#F59E0B' },
-        { id: 'peer-support', name: 'Peer Support', icon: '💬', color: '#10B981' },
-        { id: 'focus-zone', name: 'Focus Zone', icon: '🎯', color: '#3B82F6' },
-    ];
 
     // Handle room query parameter
     useEffect(() => {
         const roomParam = searchParams.get('room');
         if (roomParam) {
             const roomExists = rooms.some(r => r.id === roomParam);
-            if (roomExists) {
+            if (roomExists && roomParam !== activeRoom) {
                 setActiveRoom(roomParam);
             }
         }
-    }, [searchParams]);
+    }, [searchParams, activeRoom]);
 
-    // Anonymous name components
-    const adjectives = [
-        'Neon', 'Cosmic', 'Swift', 'Silent', 'Brave', 'Gentle', 'Happy', 'Calm',
-        'Bright', 'Clever', 'Wild', 'Misty', 'Crystal', 'Solar', 'Lunar', 'Starry'
-    ];
-    const animals = [
-        'Tiger', 'Lion', 'Eagle', 'Dolphin', 'Panda', 'Wolf', 'Fox', 'Owl',
-        'Hawk', 'Bear', 'Falcon', 'Phoenix', 'Dragon', 'Koala', 'Lynx', 'Raven'
-    ];
-
-    const generateAnonymousName = () => {
-        const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-        const animal = animals[Math.floor(Math.random() * animals.length)];
-        const number = Math.floor(Math.random() * 100);
-        return `${adj} ${animal} #${number}`;
-    };
-
+    // Get or generate anonymous identity
     // Get or generate anonymous identity
     useEffect(() => {
         // Check for existing anonymous identity
@@ -65,8 +68,10 @@ export default function ChatPage() {
             localStorage.setItem('mindlink-anonymous-name', anonName);
         }
 
-        setUsername(anonName);
-    }, []);
+        if (anonName !== username) {
+            setUsername(anonName);
+        }
+    }, [username]);
 
     // Connect to Socket.io server
     useEffect(() => {
@@ -78,17 +83,17 @@ export default function ChatPage() {
         });
 
         newSocket.on('connect', () => {
-            console.log('✅ Connected to chat server');
+            console.log(' Connected to chat server');
             setConnected(true);
         });
 
         newSocket.on('disconnect', () => {
-            console.log('❌ Disconnected from chat server');
+            console.log(' Disconnected from chat server');
             setConnected(false);
         });
 
         newSocket.on('connect_error', (error) => {
-            console.log('⚠️ Connection error - backend may not be running');
+            console.log('️ Connection error - backend may not be running');
             setConnected(false);
         });
 
@@ -120,7 +125,7 @@ export default function ChatPage() {
 
         // Handle cleared chat
         newSocket.on('chat_cleared', (data) => {
-            console.log('🧹 Chat cleared by a user');
+            console.log(' Chat cleared by a user');
             setMessages([]);
         });
 
@@ -129,6 +134,7 @@ export default function ChatPage() {
         return () => {
             newSocket.disconnect();
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Join room when activeRoom changes
@@ -141,6 +147,7 @@ export default function ChatPage() {
             socket.emit('join_room', { room: activeRoom, username });
 
             // Clear messages and load history from database
+
             setMessages([]);
             setTypingUsers([]);
 
@@ -157,7 +164,7 @@ export default function ChatPage() {
                             isOwn: msg.username === username
                         }));
                         setMessages(historyMessages);
-                        console.log(`📜 Loaded ${historyMessages.length} messages from history`);
+                        console.log(` Loaded ${historyMessages.length} messages from history`);
                     }
                 })
                 .catch(err => {
@@ -198,8 +205,8 @@ export default function ChatPage() {
             setTimeout(() => {
                 const botMessage = {
                     id: Date.now() + 1,
-                    username: '🤖 MoodBot',
-                    content: "I hear you're feeling stressed. Remember, it's okay to take things one step at a time. You're stronger than you think! 💜",
+                    username: ' MoodBot',
+                    content: "I hear you're feeling stressed. Remember, it's okay to take things one step at a time. You're stronger than you think! ",
                     time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
                     isBot: true,
                 };
@@ -254,7 +261,7 @@ export default function ChatPage() {
                 <div className={styles.sidebarHeader}>
                     <h2 className={styles.sidebarTitle}>Chat Rooms</h2>
                     <span className={`${styles.connectionStatus} ${connected ? styles.online : styles.offline}`}>
-                        {connected ? '🟢 Live' : '🔴 Offline'}
+                        {connected ? ' Live' : ' Offline'}
                     </span>
                 </div>
                 <div className={styles.roomList}>
@@ -265,7 +272,7 @@ export default function ChatPage() {
                             onClick={() => setActiveRoom(room.id)}
                         >
                             <span className={styles.roomIcon} style={{ background: `${room.color}20` }}>
-                                {room.icon}
+                                <Icon name={room.icon} size={20} style={{ color: room.color }} />
                             </span>
                             <div className={styles.roomInfo}>
                                 <span className={styles.roomName}>{room.name}</span>
@@ -285,7 +292,7 @@ export default function ChatPage() {
                 <header className={styles.chatHeader}>
                     <div className={styles.chatHeaderInfo}>
                         <span className={styles.chatIcon} style={{ background: `${currentRoom?.color}20` }}>
-                            {currentRoom?.icon}
+                            <Icon name={currentRoom?.icon} size={24} style={{ color: currentRoom?.color }} />
                         </span>
                         <div>
                             <h1 className={styles.chatTitle}>{currentRoom?.name}</h1>
@@ -302,15 +309,10 @@ export default function ChatPage() {
                             onClick={handleClearChat}
                             style={{ color: '#EF4444' }}
                         >
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2M10 11v6M14 11v6" />
-                            </svg>
+                            <Icon name="Trash2" size={20} />
                         </button>
                         <button className={styles.iconButton} title="Room Info">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M12 16v-4M12 8h.01" />
-                            </svg>
+                            <Icon name="Info" size={20} />
                         </button>
                     </div>
                 </header>
@@ -318,12 +320,14 @@ export default function ChatPage() {
                 {/* Messages */}
                 <div className={styles.messagesContainer}>
                     <div className={styles.welcomeBanner}>
-                        <span className={styles.welcomeIcon}>{currentRoom?.icon}</span>
+                        <span className={styles.welcomeIcon}>
+                            <Icon name={currentRoom?.icon} size={48} style={{ color: currentRoom?.color }} />
+                        </span>
                         <h3>Welcome to {currentRoom?.name}!</h3>
-                        <p>This is a safe, anonymous space. Be kind and supportive. 💜</p>
+                        <p>This is a safe, anonymous space. Be kind and supportive. </p>
                         {!connected && (
                             <p className={styles.connectionWarning}>
-                                ⚠️ Connecting to chat server... Make sure backend is running on port 5000
+                                ️ Connecting to chat server... Make sure backend is running on port 5000
                             </p>
                         )}
                     </div>
@@ -335,7 +339,7 @@ export default function ChatPage() {
                         >
                             {!message.isOwn && (
                                 <div className={styles.messageAvatar}>
-                                    {message.isBot ? '🤖' : message.username?.charAt(message.username.length - 1) || '?'}
+                                    {message.isBot ? '' : message.username?.charAt(message.username.length - 1) || '?'}
                                 </div>
                             )}
                             <div className={styles.messageContent}>
@@ -372,9 +376,7 @@ export default function ChatPage() {
                             disabled={!connected}
                         />
                         <button type="submit" className={styles.sendButton} disabled={!inputMessage.trim() || !connected}>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
-                            </svg>
+                            <Icon name="Send" size={20} />
                         </button>
                     </div>
                     <p className={styles.inputHint}>

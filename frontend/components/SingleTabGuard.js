@@ -23,7 +23,7 @@ function readActive() {
 function writeActive(payload) {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-    } catch {}
+    } catch { }
 }
 
 function clearActive(tabId) {
@@ -32,16 +32,18 @@ function clearActive(tabId) {
         if (current && current.tabId === tabId) {
             localStorage.removeItem(STORAGE_KEY);
         }
-    } catch {}
+    } catch { }
 }
 
 export default function SingleTabGuard({ children }) {
     const [blocked, setBlocked] = useState(false);
-    const tabIdRef = useRef(`${nowMs()}_${Math.random().toString(36).slice(2, 8)}`);
+    // Use useState initializer for stable ID generation (only runs once)
+    const [tabId] = useState(() => `${nowMs()}_${Math.random().toString(36).slice(2, 8)}`);
+    // const tabIdRef = useRef(null); // Removed unsafe ref init
     const heartbeatRef = useRef(null);
 
     useEffect(() => {
-        const tabId = tabIdRef.current;
+        // const tabId = tabIdRef.current; // Removed ref usage
 
         const claim = () => {
             const current = readActive();
@@ -83,7 +85,7 @@ export default function SingleTabGuard({ children }) {
             window.removeEventListener('storage', onStorage);
             clearActive(tabId);
         };
-    }, []);
+    }, [tabId]);
 
     if (blocked) {
         return (
@@ -103,7 +105,7 @@ export default function SingleTabGuard({ children }) {
                     padding: '2rem',
                     boxShadow: '0 20px 50px rgba(15, 23, 42, 0.1)'
                 }}>
-                    <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>🧠</div>
+                    <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}></div>
                     <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#0F172A' }}>Another tab is already open</h1>
                     <p style={{ marginTop: '0.75rem', color: '#64748B', lineHeight: 1.6 }}>
                         MindLink+ is limited to one active tab at a time. Please use the original tab for your session.

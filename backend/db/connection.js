@@ -15,10 +15,10 @@ const pool = mysql.createPool({
 async function testConnection() {
     try {
         const connection = await pool.getConnection();
-        console.log('✅ MySQL connected successfully');
+        console.log(' MySQL connected successfully');
         connection.release();
     } catch (error) {
-        console.error('❌ MySQL connection failed:', error.message);
+        console.error(' MySQL connection failed:', error.message);
         console.log('ℹ️  Make sure MySQL is running and the database exists');
     }
 }
@@ -62,10 +62,10 @@ async function initializeTables() {
       )
     `);
 
-        console.log('✅ Database tables initialized');
+        console.log(' Database tables initialized');
         connection.release();
     } catch (error) {
-        console.error('❌ Table initialization failed:', error.message);
+        console.error(' Table initialization failed:', error.message);
     }
 }
 

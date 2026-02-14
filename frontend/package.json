@@ -9,17 +9,23 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "has-flag": "^5.0.1",
+    "lucide-react": "^0.564.0",
     "next": "16.1.4",
+    "peerjs": "^1.5.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "peerjs": "^1.5.4",
     "socket.io-client": "^4.8.3",
-    "supports-color": "^10.2.2"
+    "supports-color": "^10.2.2",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.24",
     "eslint": "^9",
-    "eslint-config-next": "16.1.4"
+    "eslint-config-next": "16.1.4",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17"
   },
   "optionalDependencies": {
     "@next/swc-win32-x64-msvc": "^16.1.6"

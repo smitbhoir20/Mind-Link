@@ -93,7 +93,7 @@ router.post('/register', async (req, res) => {
             { expiresIn: JWT_EXPIRES_IN }
         );
 
-        console.log(`✅ New user registered: ${username} (${email})`);
+        console.log(` New user registered: ${username} (${email})`);
 
         res.status(201).json({
             message: 'Registration successful',
@@ -140,7 +140,7 @@ router.post('/login', (req, res) => {
             { expiresIn: JWT_EXPIRES_IN }
         );
 
-        console.log(`✅ User logged in: ${user.username}`);
+        console.log(` User logged in: ${user.username}`);
 
         res.json({
             message: 'Login successful',

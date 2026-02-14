@@ -5,14 +5,15 @@ import { io } from 'socket.io-client';
 import Peer from 'peerjs';
 import styles from './page.module.css';
 import { getBackendUrl } from '@/lib/backendUrl';
+import Icon from '@/components/Icon';
 
 const moodOptions = [
-  { id: 'calm', label: 'Calm 😌' },
-  { id: 'stressed', label: 'Stressed 😰' },
-  { id: 'sad', label: 'Down 🌧️' },
-  { id: 'anxious', label: 'Anxious 😟' },
-  { id: 'motivated', label: 'Motivated 💪' },
-  { id: 'social', label: 'Social 🙂' },
+  { id: 'calm', label: 'Calm' },
+  { id: 'stressed', label: 'Stressed' },
+  { id: 'sad', label: 'Down' },
+  { id: 'anxious', label: 'Anxious' },
+  { id: 'motivated', label: 'Motivated' },
+  { id: 'social', label: 'Social' },
 ];
 
 const interestOptions = [
@@ -45,7 +46,13 @@ export default function BuddyChatPage() {
   const matchIdRef = useRef(null);
   const expectedPeerIdRef = useRef(null);
   const connectionTimerRef = useRef(null);
+
   const messagesEndRef = useRef(null);
+  const statusRef = useRef(status);
+
+  useEffect(() => {
+    statusRef.current = status;
+  }, [status]);
 
   const username = (() => {
     try {
@@ -58,100 +65,7 @@ export default function BuddyChatPage() {
     }
   })();
 
-  useEffect(() => {
-    const backendUrl = getBackendUrl();
-    const newSocket = io(backendUrl, {
-      transports: ['polling'],
-      upgrade: false,
-    });
 
-    newSocket.on('connect', () => {
-      setError('');
-    });
-
-    newSocket.on('disconnect', () => {
-      handleEnd('disconnected');
-    });
-
-    newSocket.on('match_waiting', () => {
-      setStatus('searching');
-    });
-
-    newSocket.on('match_found', (data) => {
-      setStatus('matched');
-      setMatch({ matchId: data.matchId, peer: data.peer });
-      matchIdRef.current = data.matchId;
-      expectedPeerIdRef.current = null;
-      setIsAccepted(false);
-      setPeerAccepted(false);
-      setError('');
-    });
-
-    newSocket.on('match_peer_accepted', () => {
-      setPeerAccepted(true);
-    });
-
-    newSocket.on('peer_ready', (data) => {
-      if (data.matchId !== matchIdRef.current) return;
-      expectedPeerIdRef.current = data.peerId;
-      setStatus('connecting');
-      startConnectionTimeout();
-
-      if (data.isInitiator && peerRef.current) {
-        const conn = peerRef.current.connect(data.peerId, { reliable: true });
-        attachConnection(conn);
-      }
-    });
-
-    newSocket.on('match_rejected', () => {
-      handleEnd('rejected');
-    });
-
-    newSocket.on('match_end', (data) => {
-      handleEnd(data.reason || 'ended');
-    });
-
-    setSocket(newSocket);
-    return () => {
-      newSocket.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    const backendUrl = getBackendUrl();
-    const parsedUrl = new URL(backendUrl);
-    const peer = new Peer({
-      host: parsedUrl.hostname,
-      port: parseInt(parsedUrl.port) || (parsedUrl.protocol === 'https:' ? 443 : 80),
-      path: '/peerjs',
-      secure: parsedUrl.protocol === 'https:',
-    });
-
-    peer.on('open', (peerId) => {
-      if (socket) {
-        socket.emit('peer_register', { peerId });
-      }
-    });
-
-    peer.on('connection', (conn) => {
-      if (expectedPeerIdRef.current && conn.peer !== expectedPeerIdRef.current) {
-        conn.close();
-        return;
-      }
-      attachConnection(conn);
-    });
-
-    peer.on('error', () => {
-      setError('Peer connection error. Please try again.');
-      handleEnd('connection_failed');
-    });
-
-    peerRef.current = peer;
-    return () => {
-      peer.destroy();
-      peerRef.current = null;
-    };
-  }, [socket]);
 
 
 
@@ -198,7 +112,7 @@ export default function BuddyChatPage() {
       clearTimeout(connectionTimerRef.current);
     }
     connectionTimerRef.current = setTimeout(() => {
-      if (status !== 'connected') {
+      if (statusRef.current !== 'connected') {
         if (socket && matchIdRef.current) {
           socket.emit('match_end', { matchId: matchIdRef.current, reason: 'timeout' });
         }
@@ -299,6 +213,104 @@ export default function BuddyChatPage() {
     }
   };
 
+  useEffect(() => {
+    const backendUrl = getBackendUrl();
+    const newSocket = io(backendUrl, {
+      transports: ['polling'],
+      upgrade: false,
+    });
+
+    newSocket.on('connect', () => {
+      setError('');
+    });
+
+    newSocket.on('disconnect', () => {
+      handleEnd('disconnected');
+    });
+
+    newSocket.on('match_waiting', () => {
+      setStatus('searching');
+    });
+
+    newSocket.on('match_found', (data) => {
+      setStatus('matched');
+      setMatch({ matchId: data.matchId, peer: data.peer });
+      matchIdRef.current = data.matchId;
+      expectedPeerIdRef.current = null;
+      setIsAccepted(false);
+      setPeerAccepted(false);
+      setError('');
+    });
+
+    newSocket.on('match_peer_accepted', () => {
+      setPeerAccepted(true);
+    });
+
+    newSocket.on('peer_ready', (data) => {
+      if (data.matchId !== matchIdRef.current) return;
+      expectedPeerIdRef.current = data.peerId;
+      setStatus('connecting');
+      startConnectionTimeout();
+
+      if (data.isInitiator && peerRef.current) {
+        const conn = peerRef.current.connect(data.peerId, { reliable: true });
+        attachConnection(conn);
+      }
+    });
+
+    newSocket.on('match_rejected', () => {
+      handleEnd('rejected');
+    });
+
+    newSocket.on('match_end', (data) => {
+      handleEnd(data.reason || 'ended');
+    });
+
+
+    setSocket(newSocket);
+    return () => {
+      newSocket.disconnect();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const backendUrl = getBackendUrl();
+    const parsedUrl = new URL(backendUrl);
+    const peer = new Peer({
+      host: parsedUrl.hostname,
+      port: parseInt(parsedUrl.port) || (parsedUrl.protocol === 'https:' ? 443 : 80),
+      path: '/peerjs',
+      secure: parsedUrl.protocol === 'https:',
+    });
+
+    peer.on('open', (peerId) => {
+      if (socket) {
+        socket.emit('peer_register', { peerId });
+      }
+    });
+
+    peer.on('connection', (conn) => {
+      if (expectedPeerIdRef.current && conn.peer !== expectedPeerIdRef.current) {
+        conn.close();
+        return;
+      }
+      attachConnection(conn);
+    });
+
+    peer.on('error', () => {
+      setError('Peer connection error. Please try again.');
+      handleEnd('connection_failed');
+    });
+
+    peerRef.current = peer;
+    return () => {
+      peer.destroy();
+      peerRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socket]);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -368,7 +380,9 @@ export default function BuddyChatPage() {
           {match && (
             <div className={styles.matchBox}>
               <div className={styles.matchHeader}>
-                <span className={styles.peerAvatar}>👤</span>
+                <span className={styles.peerAvatar}>
+                  <Icon name="User" size={32} />
+                </span>
                 <div>
                   <strong>{match.peer.username || 'Anonymous'}</strong>
                   <div className={styles.peerMeta}>

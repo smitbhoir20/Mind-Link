@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
 import { getBackendUrl } from '@/lib/backendUrl';
+import Icon from '@/components/Icon';
 
 export default function AuthPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -74,7 +75,7 @@ export default function AuthPage() {
                 localStorage.setItem('mindlink-token', data.token);
                 localStorage.setItem('mindlink-user', JSON.stringify(data.user));
 
-                console.log('✅ Login successful');
+                console.log(' Login successful');
                 router.push('/');
 
             } else {
@@ -104,7 +105,7 @@ export default function AuthPage() {
                 localStorage.setItem('mindlink-token', data.token);
                 localStorage.setItem('mindlink-user', JSON.stringify(data.user));
 
-                console.log('✅ Registration successful');
+                console.log(' Registration successful');
                 router.push('/');
             }
 
@@ -120,7 +121,9 @@ export default function AuthPage() {
             <div className={styles.authCard}>
                 <div className={styles.header}>
                     <div className={styles.logo}>
-                        <span className={styles.logoIcon}>🧠</span>
+                        <span className={styles.logoIcon}>
+                            <Icon name="Brain" size={32} color="white" />
+                        </span>
                         <span className={styles.logoText}>MindLink+</span>
                     </div>
                     <h1 className={styles.title}>
@@ -152,7 +155,7 @@ export default function AuthPage() {
                 {/* Error Message */}
                 {error && (
                     <div className={styles.error}>
-                        <span>⚠️</span> {error}
+                        <Icon name="AlertCircle" size={16} /> {error}
                     </div>
                 )}
 
@@ -237,7 +240,7 @@ export default function AuthPage() {
                         disabled={loading}
                     >
                         {loading ? (
-                            <span className={styles.spinner}></span>
+                            <Icon name="Loader2" size={20} className="animate-spin" />
                         ) : (
                             isLogin ? 'Sign In' : 'Create Account'
                         )}
@@ -247,7 +250,7 @@ export default function AuthPage() {
                 {/* Footer */}
                 <p className={styles.footer}>
                     {isLogin ? (
-                        <>Don't have an account? <button onClick={() => setIsLogin(false)}>Sign up</button></>
+                        <>Don&apos;t have an account? <button onClick={() => setIsLogin(false)}>Sign up</button></>
                     ) : (
                         <>Already have an account? <button onClick={() => setIsLogin(true)}>Sign in</button></>
                     )}

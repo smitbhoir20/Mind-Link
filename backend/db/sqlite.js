@@ -19,7 +19,7 @@ function initializeDatabase() {
             email TEXT NOT NULL UNIQUE,
             phone TEXT,
             password_hash TEXT NOT NULL,
-            avatar TEXT DEFAULT '😊',
+            avatar TEXT DEFAULT '',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             last_login DATETIME
         )
@@ -57,7 +57,7 @@ function initializeDatabase() {
     // Migration: Add user_id column if it doesn't exist (for existing databases)
     try {
         db.exec(`ALTER TABLE messages ADD COLUMN user_id INTEGER`);
-        console.log('✅ Added user_id column to messages table');
+        console.log(' Added user_id column to messages table');
     } catch (e) {
         // Column already exists, ignore error
     }
@@ -69,10 +69,10 @@ function initializeDatabase() {
     `);
 
     const defaultRooms = [
-        ['exam-stress', 'Exam Stress', 'A safe space to discuss exam anxiety and study tips', '📚', '#EF4444'],
-        ['career-talk', 'Career Talk', 'Discuss career paths, internships, and future plans', '💼', '#F59E0B'],
-        ['peer-support', 'Peer Support', 'A safe space to support each other', '💬', '#10B981'],
-        ['focus-zone', 'Focus Zone', 'Stay focused and accountable with study buddies', '🎯', '#3B82F6']
+        ['exam-stress', 'Exam Stress', 'A safe space to discuss exam anxiety and study tips', 'BookOpen', '#EF4444'],
+        ['career-talk', 'Career Talk', 'Discuss career paths, internships, and future plans', 'Briefcase', '#F59E0B'],
+        ['peer-support', 'Peer Support', 'A safe space to support each other', 'MessageCircle', '#10B981'],
+        ['focus-zone', 'Focus Zone', 'Stay focused and accountable with study buddies', 'Target', '#3B82F6']
     ];
 
     const insertMany = db.transaction((rooms) => {
@@ -83,7 +83,7 @@ function initializeDatabase() {
 
     insertMany(defaultRooms);
 
-    console.log('✅ SQLite database initialized');
+    console.log(' SQLite database initialized');
 }
 
 // ===== USER FUNCTIONS =====

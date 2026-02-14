@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
 :root,
 [data-theme="calm"] {
   /* Primary Colors - Cool & Calm */
@@ -75,10 +81,10 @@
   --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Theme Name */
-  --theme-emoji: 🧊;
+  --theme-emoji: ;
 }
 
-/* ☀️ Happy Theme - DEEP AMBER - Rich, warm, golden */
+/* ️ Happy Theme - DEEP AMBER - Rich, warm, golden */
 [data-theme="happy"] {
   --primary-purple: #B45309;
   --primary-teal: #D97706;
@@ -98,10 +104,10 @@
   --shadow-glow: 0 0 80px rgba(180, 83, 9, 0.6);
   --shadow-card-hover: 0 20px 50px rgba(120, 53, 15, 0.35);
 
-  --theme-emoji: ☀️;
+  --theme-emoji: ️;
 }
 
-/* 🌊 Sad Theme - DEEP NAVY - Dark ocean, night sea */
+/*  Sad Theme - DEEP NAVY - Dark ocean, night sea */
 [data-theme="sad"] {
   --primary-purple: #0369A1;
   --primary-teal: #0284C7;
@@ -121,10 +127,10 @@
   --shadow-glow: 0 0 80px rgba(3, 105, 161, 0.5);
   --shadow-card-hover: 0 20px 50px rgba(7, 89, 133, 0.3);
 
-  --theme-emoji: 🌊;
+  --theme-emoji: ;
 }
 
-/* 🔥 Energized Theme - DARK INFERNO - Deep crimson, intense heat */
+/*  Energized Theme - DARK INFERNO - Deep crimson, intense heat */
 [data-theme="energized"] {
   --primary-purple: #B91C1C;
   --primary-teal: #DC2626;
@@ -144,7 +150,7 @@
   --shadow-glow: 0 0 100px rgba(185, 28, 28, 0.6);
   --shadow-card-hover: 0 20px 50px rgba(127, 29, 29, 0.4);
 
-  --theme-emoji: 🔥;
+  --theme-emoji: ;
 }
 
 * {

@@ -45,10 +45,10 @@ CREATE TABLE IF NOT EXISTS selfcare_challenges (
 
 -- Insert default chat rooms
 INSERT INTO chat_rooms (name, description, icon, color) VALUES
-('Exam Stress', 'A safe space to discuss exam anxiety and study tips', '📚', '#EF4444'),
-('Career Talk', 'Discuss career paths, internships, and future plans', '💼', '#F59E0B'),
-('Peer Support', 'A safe space to support each other', '💬', '#10B981'),
-('Focus Zone', 'Stay focused and accountable with study buddies', '🎯', '#3B82F6');
+('Exam Stress', 'A safe space to discuss exam anxiety and study tips', '', '#EF4444'),
+('Career Talk', 'Discuss career paths, internships, and future plans', '', '#F59E0B'),
+('Peer Support', 'A safe space to support each other', '', '#10B981'),
+('Focus Zone', 'Stay focused and accountable with study buddies', '', '#3B82F6');
 
 -- Insert default self-care challenges
 INSERT INTO selfcare_challenges (challenge_text, category, difficulty) VALUES

@@ -16,9 +16,9 @@ if (groqKey) {
     try {
         const Groq = require('groq-sdk');
         groq = new Groq({ apiKey: groqKey });
-        console.log('✅ Groq AI initialized successfully (FREE & FAST!)');
+        console.log(' Groq AI initialized successfully (FREE & FAST!)');
     } catch (e) {
-        console.log('❌ Failed to initialize Groq:', e.message);
+        console.log(' Failed to initialize Groq:', e.message);
     }
 }
 
@@ -26,9 +26,9 @@ if (!groq && openaiKey && openaiKey.startsWith('sk-')) {
     try {
         const OpenAI = require('openai');
         openai = new OpenAI({ apiKey: openaiKey });
-        console.log('✅ OpenAI initialized successfully');
+        console.log(' OpenAI initialized successfully');
     } catch (e) {
-        console.log('❌ Failed to initialize OpenAI:', e.message);
+        console.log(' Failed to initialize OpenAI:', e.message);
     }
 }
 
@@ -37,9 +37,9 @@ if (!groq && !openai && geminiKey && geminiKey.startsWith('AIza')) {
         const { GoogleGenerativeAI } = require('@google/generative-ai');
         const genAI = new GoogleGenerativeAI(geminiKey);
         geminiModel = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-        console.log('✅ Gemini AI initialized successfully');
+        console.log(' Gemini AI initialized successfully');
     } catch (e) {
-        console.log('❌ Failed to initialize Gemini:', e.message);
+        console.log(' Failed to initialize Gemini:', e.message);
     }
 }
 
@@ -93,10 +93,10 @@ router.post('/chat', async (req, res) => {
                 });
 
                 const text = completion.choices[0].message.content;
-                console.log('✅ Groq response:', text.substring(0, 80) + '...');
+                console.log(' Groq response:', text.substring(0, 80) + '...');
                 return res.json({ response: text });
             } catch (error) {
-                console.error('❌ Groq API error:', error.message);
+                console.error(' Groq API error:', error.message);
             }
         }
 
@@ -120,10 +120,10 @@ router.post('/chat', async (req, res) => {
                 });
 
                 const text = completion.choices[0].message.content;
-                console.log('✅ OpenAI response:', text.substring(0, 80) + '...');
+                console.log(' OpenAI response:', text.substring(0, 80) + '...');
                 return res.json({ response: text });
             } catch (error) {
-                console.error('❌ OpenAI API error:', error.message);
+                console.error(' OpenAI API error:', error.message);
             }
         }
 
@@ -141,10 +141,10 @@ router.post('/chat', async (req, res) => {
                 const response = await result.response;
                 const text = response.text();
 
-                console.log('✅ Gemini response:', text.substring(0, 80) + '...');
+                console.log(' Gemini response:', text.substring(0, 80) + '...');
                 return res.json({ response: text });
             } catch (error) {
-                console.error('❌ Gemini API error:', error.message);
+                console.error(' Gemini API error:', error.message);
             }
         }
 
@@ -165,38 +165,38 @@ function getFallbackResponse(message) {
     const lowerMessage = (message || '').toLowerCase();
 
     if (lowerMessage.includes('stress') || lowerMessage.includes('anxious') || lowerMessage.includes('worried')) {
-        return "I can sense you're feeling stressed. Remember, it's completely normal to feel this way sometimes. Try taking a few deep breaths - inhale for 4 counts, hold for 4, exhale for 4. You've overcome challenges before, and you can do it again. 💪 What's specifically on your mind?";
+        return "I can sense you're feeling stressed. Remember, it's completely normal to feel this way sometimes. Try taking a few deep breaths - inhale for 4 counts, hold for 4, exhale for 4. You've overcome challenges before, and you can do it again.  What's specifically on your mind?";
     }
 
     if (lowerMessage.includes('sad') || lowerMessage.includes('down') || lowerMessage.includes('depressed')) {
-        return "I'm sorry you're feeling down. Your feelings are valid, and it takes courage to acknowledge them. Remember, tough times don't last, but tough people do. 💜 Is there something specific that triggered these feelings?";
+        return "I'm sorry you're feeling down. Your feelings are valid, and it takes courage to acknowledge them. Remember, tough times don't last, but tough people do.  Is there something specific that triggered these feelings?";
     }
 
     if (lowerMessage.includes('happy') || lowerMessage.includes('good') || lowerMessage.includes('great')) {
-        return "That's wonderful to hear! 🌟 Positive feelings are worth celebrating. What's contributing to your good mood today? I'd love to hear about it!";
+        return "That's wonderful to hear!  Positive feelings are worth celebrating. What's contributing to your good mood today? I'd love to hear about it!";
     }
 
     if (lowerMessage.includes('tired') || lowerMessage.includes('exhausted') || lowerMessage.includes('sleep')) {
-        return "Rest is so important for mental wellbeing. If you're feeling exhausted, your body and mind might be telling you to slow down. Consider taking a short break, maybe a power nap or a gentle walk. 😴 Have you been getting enough sleep lately?";
+        return "Rest is so important for mental wellbeing. If you're feeling exhausted, your body and mind might be telling you to slow down. Consider taking a short break, maybe a power nap or a gentle walk.  Have you been getting enough sleep lately?";
     }
 
     if (lowerMessage.includes('lonely') || lowerMessage.includes('alone')) {
-        return "Feeling lonely can be really hard. But remember, you're not alone in feeling this way - many people experience loneliness. Have you tried our peer chat rooms? Sometimes connecting with others who understand can make a big difference. 💜";
+        return "Feeling lonely can be really hard. But remember, you're not alone in feeling this way - many people experience loneliness. Have you tried our peer chat rooms? Sometimes connecting with others who understand can make a big difference. ";
     }
 
     if (lowerMessage.includes('exam') || lowerMessage.includes('study') || lowerMessage.includes('test')) {
-        return "Academic pressure can feel overwhelming! Here are some tips: break your study sessions into manageable chunks, take regular breaks, and remember that your worth isn't defined by grades. 📚 Would you like some specific study strategies?";
+        return "Academic pressure can feel overwhelming! Here are some tips: break your study sessions into manageable chunks, take regular breaks, and remember that your worth isn't defined by grades.  Would you like some specific study strategies?";
     }
 
     if (lowerMessage.includes('thank')) {
-        return "You're so welcome! 💜 I'm always here whenever you need to talk. Remember, taking care of your mental health is a sign of strength. Is there anything else on your mind?";
+        return "You're so welcome!  I'm always here whenever you need to talk. Remember, taking care of your mental health is a sign of strength. Is there anything else on your mind?";
     }
 
     if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
-        return "Hey there! 👋 I'm so glad you're here. How are you feeling today? I'm all ears and ready to listen. 💜";
+        return "Hey there!  I'm so glad you're here. How are you feeling today? I'm all ears and ready to listen. ";
     }
 
-    return "Thank you for sharing that with me. I'm here to listen and support you. Could you tell me more about how you're feeling? Remember, every emotion is valid, and talking about it is the first step to feeling better. 💜";
+    return "Thank you for sharing that with me. I'm here to listen and support you. Could you tell me more about how you're feeling? Remember, every emotion is valid, and talking about it is the first step to feeling better. ";
 }
 
 module.exports = router;

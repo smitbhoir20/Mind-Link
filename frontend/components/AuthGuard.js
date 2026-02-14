@@ -16,8 +16,9 @@ export default function AuthGuard({ children }) {
     useEffect(() => {
         // Check if current path is public
         if (publicPaths.includes(pathname)) {
-            setIsLoading(false);
-            setIsAuthenticated(true);
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            if (isLoading) setIsLoading(false);
+            if (!isAuthenticated) setIsAuthenticated(true);
             return;
         }
 
@@ -55,7 +56,7 @@ export default function AuthGuard({ children }) {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [pathname, router]);
+    }, [pathname, router, isLoading, isAuthenticated]);
 
     // Show loading while checking auth
     if (isLoading && !publicPaths.includes(pathname)) {
