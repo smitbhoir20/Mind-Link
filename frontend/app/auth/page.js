@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './page.module.css';
+import { getBackendUrl } from '@/lib/backendUrl';
 
 export default function AuthPage() {
     const [isLogin, setIsLogin] = useState(true);
@@ -22,9 +23,7 @@ export default function AuthPage() {
         const token = localStorage.getItem('mindlink-token');
         if (token) {
             // Verify token
-            const backendUrl = typeof window !== 'undefined'
-                ? `http://${window.location.hostname}:5000`
-                : 'http://localhost:5000';
+            const backendUrl = getBackendUrl();
 
             fetch(`${backendUrl}/api/auth/verify`, {
                 headers: { 'Authorization': `Bearer ${token}` }
@@ -51,9 +50,7 @@ export default function AuthPage() {
         setError('');
         setLoading(true);
 
-        const backendUrl = typeof window !== 'undefined'
-            ? `http://${window.location.hostname}:5000`
-            : 'http://localhost:5000';
+        const backendUrl = getBackendUrl();
 
         try {
             if (isLogin) {

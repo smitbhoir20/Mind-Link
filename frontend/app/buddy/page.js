@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
 import Peer from 'peerjs';
 import styles from './page.module.css';
+import { getBackendUrl } from '@/lib/backendUrl';
 
 const moodOptions = [
   { id: 'calm', label: 'Calm 😌' },
@@ -25,10 +26,7 @@ const interestOptions = [
   'General',
 ];
 
-function getBackendUrl() {
-  if (typeof window === 'undefined') return 'http://localhost:5000';
-  return `http://${window.location.hostname}:5000`;
-}
+// getBackendUrl imported from @/lib/backendUrl
 
 export default function BuddyChatPage() {
   const [socket, setSocket] = useState(null);
@@ -121,11 +119,12 @@ export default function BuddyChatPage() {
 
   useEffect(() => {
     const backendUrl = getBackendUrl();
+    const parsedUrl = new URL(backendUrl);
     const peer = new Peer({
-      host: new URL(backendUrl).hostname,
-      port: 5000,
+      host: parsedUrl.hostname,
+      port: parseInt(parsedUrl.port) || (parsedUrl.protocol === 'https:' ? 443 : 80),
       path: '/peerjs',
-      secure: false,
+      secure: parsedUrl.protocol === 'https:',
     });
 
     peer.on('open', (peerId) => {
@@ -277,7 +276,7 @@ export default function BuddyChatPage() {
     if (connectionRef.current) {
       try {
         connectionRef.current.close();
-      } catch {}
+      } catch { }
     }
     connectionRef.current = null;
     matchIdRef.current = null;

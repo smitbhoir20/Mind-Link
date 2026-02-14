@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
+import { getBackendUrl } from '@/lib/backendUrl';
 
 // Pages that don't require authentication
 const publicPaths = ['/auth'];
@@ -31,9 +32,7 @@ export default function AuthGuard({ children }) {
         }
 
         // Verify token with backend (optional but recommended)
-        const backendUrl = typeof window !== 'undefined'
-            ? `http://${window.location.hostname}:5000`
-            : 'http://localhost:5000';
+        const backendUrl = getBackendUrl();
 
         fetch(`${backendUrl}/api/auth/verify`, {
             headers: { 'Authorization': `Bearer ${token}` }

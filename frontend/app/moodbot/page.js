@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import styles from './page.module.css';
+import { getBackendUrl } from '@/lib/backendUrl';
 
 export default function MoodBotPage() {
     const [messages, setMessages] = useState([
@@ -23,10 +24,7 @@ export default function MoodBotPage() {
     const getMoodBotResponse = async (userMessage) => {
         // Try to call the backend API
         try {
-            // Use same host as browser but port 5000 for backend
-            const backendUrl = typeof window !== 'undefined'
-                ? `http://${window.location.hostname}:5000`
-                : 'http://localhost:5000';
+            const backendUrl = getBackendUrl();
 
             const response = await fetch(`${backendUrl}/api/moodbot/chat`, {
                 method: 'POST',
