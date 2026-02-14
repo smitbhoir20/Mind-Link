@@ -16,7 +16,7 @@ export default function ClientLayout({ children }) {
         <SingleTabGuard>
             <AuthGuard>
                 {showNavbar && <Navbar />}
-                <main>{children}</main>
+                <main style={{ paddingTop: showNavbar ? '80px' : '0' }}>{children}</main>
             </AuthGuard>
         </SingleTabGuard>
     );

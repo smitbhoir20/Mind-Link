@@ -153,9 +153,7 @@ export default function BuddyChatPage() {
     };
   }, [socket]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+
 
   const startSearch = () => {
     if (!socket || status === 'searching' || status === 'matched' || status === 'connecting' || status === 'connected') {
