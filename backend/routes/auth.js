@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const emailValidator = require('deep-email-validator');
 const {
     createUser,
     findUserByEmail,
@@ -32,7 +33,7 @@ const authenticateToken = (req, res, next) => {
 };
 
 // Register new user
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
     try {
         const { username, email, phone, password } = req.body;
 
@@ -40,6 +41,21 @@ router.post('/register', (req, res) => {
         if (!username || !email || !password) {
             return res.status(400).json({
                 error: 'Username, email, and password are required'
+            });
+        }
+
+        // Validate email existence
+        const { valid, reason, validators } = await emailValidator.validate({
+            email: email,
+            validateSMTP: false // SMTP check often times out in dev/cloud environments
+        });
+        if (!valid) {
+            return res.status(400).json({
+                error: 'Please provide a valid email address.',
+                details: {
+                    reason: validators[reason]?.reason || reason,
+                    suggestion: validators.typo?.source
+                }
             });
         }
 
