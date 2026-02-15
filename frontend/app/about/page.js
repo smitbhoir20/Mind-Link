@@ -17,13 +17,13 @@ export default function AboutPage() {
     ];
 
     const techStack = [
-        { icon: "Code", name: "Next.js", description: "React Framework" },
-        { icon: "Palette", name: "CSS3", description: "Modern Styling" },
-        { icon: "Server", name: "Node.js", description: "Backend Runtime" },
-        { icon: "Layers", name: "Express.js", description: "Server Framework" },
-        { icon: "Zap", name: "Socket.io", description: "Real-time Chat" },
-        { icon: "Database", name: "MySQL", description: "Database" },
-        { icon: "Cpu", name: "groq API", description: "AI Companion" },
+        { name: "Next.js", description: "React Framework", logo: "https://cdn.simpleicons.org/nextdotjs/white" },
+        { name: "CSS3", description: "Modern Styling", logo: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain.svg" },
+        { name: "Node.js", description: "Backend Runtime", logo: "https://cdn.simpleicons.org/nodedotjs/white" },
+        { name: "Express.js", description: "Server Framework", logo: "https://cdn.simpleicons.org/express/white" },
+        { name: "Socket.io", description: "Real-time Chat", logo: "https://cdn.simpleicons.org/socketdotio/white" },
+        { name: "SQLite", description: "Lightweight Database", logo: "/images/icons/sqlite.svg" },
+        { name: "Groq API", description: "AI Companion", logo: "/images/icons/groq.png" },
     ];
 
     const team = [
@@ -35,9 +35,11 @@ export default function AboutPage() {
             {/* Hero Section */}
             <section className={styles.hero}>
                 <div className={styles.heroContent}>
-                    <span className={styles.heroEmoji}>
-                        <Icon name="Brain" size={64} color="white" />
-                    </span>
+                    <div className={styles.logoWrapper}>
+                        <div className={styles.logoCircle}>
+                            <Icon name="Brain" size={64} color="white" />
+                        </div>
+                    </div>
                     <h1 className={styles.heroTitle}>
                         About <span className={styles.gradientText}>MindLink+</span>
                     </h1>
@@ -134,10 +136,15 @@ export default function AboutPage() {
                     <h2 className={styles.sectionTitle}>Built With</h2>
                     <div className={styles.techGrid}>
                         {techStack.map((tech, index) => (
-                            <div key={index} className={styles.techCard}>
-                                <span className={styles.techIcon}>
-                                    <Icon name={tech.icon} size={24} />
-                                </span>
+                            <div key={index} className={styles.techCard} data-tech={tech.name}>
+                                <div className={styles.techIconWrapper}>
+                                    <img
+                                        src={tech.logo}
+                                        alt={tech.name}
+                                        className={styles.techLogo}
+                                        loading="lazy"
+                                    />
+                                </div>
                                 <span className={styles.techName}>{tech.name}</span>
                                 <span className={styles.techDesc}>{tech.description}</span>
                             </div>

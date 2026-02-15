@@ -5,7 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { getBackendUrl } from '@/lib/backendUrl';
 
 // Pages that don't require authentication
-const publicPaths = ['/auth'];
+const publicPaths = ['/auth', '/', '/about'];
 
 export default function AuthGuard({ children }) {
     const [isLoading, setIsLoading] = useState(true);

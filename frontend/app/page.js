@@ -228,9 +228,7 @@ export default function Home() {
             MindLink+ is not a substitute for professional mental health care.
             If you&apos;re in crisis, please contact your local mental health helpline.
           </p>
-          <p className={styles.footerCopyright}>
-            © 2026 MindLink+. All rights reserved.
-          </p>
+
         </div>
       </footer>
     </div>

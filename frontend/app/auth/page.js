@@ -17,15 +17,64 @@ export default function AuthPage() {
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [emailStatus, setEmailStatus] = useState({ state: 'idle', message: '' });
+    const [usernameStatus, setUsernameStatus] = useState({ state: 'idle', message: '' });
     const router = useRouter();
+
+    // Check availability as user types
+    useEffect(() => {
+        if (isLogin || !formData.email || formData.email.length < 5) {
+            setEmailStatus({ state: 'idle', message: '' });
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            try {
+                const backendUrl = getBackendUrl();
+                const response = await fetch(`${backendUrl}/api/auth/check-email?email=${encodeURIComponent(formData.email)}`);
+                const data = await response.json();
+                if (data.available) {
+                    setEmailStatus({ state: 'success', message: '' });
+                } else {
+                    setEmailStatus({ state: 'error', message: 'Email already registered' });
+                }
+            } catch (err) {
+                console.error('Email check failed:', err);
+            }
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [formData.email, isLogin]);
+
+    useEffect(() => {
+        if (isLogin || !formData.username || formData.username.length < 3) {
+            setUsernameStatus({ state: 'idle', message: '' });
+            return;
+        }
+
+        const timer = setTimeout(async () => {
+            try {
+                const backendUrl = getBackendUrl();
+                const response = await fetch(`${backendUrl}/api/auth/check-username?username=${encodeURIComponent(formData.username)}`);
+                const data = await response.json();
+                if (data.available) {
+                    setUsernameStatus({ state: 'success', message: 'Username available' });
+                } else {
+                    setUsernameStatus({ state: 'error', message: 'Username already taken' });
+                }
+            } catch (err) {
+                console.error('Username check failed:', err);
+            }
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [formData.username, isLogin]);
 
     // Check if already logged in
     useEffect(() => {
         const token = localStorage.getItem('mindlink-token');
         if (token) {
-            // Verify token
             const backendUrl = getBackendUrl();
-
             fetch(`${backendUrl}/api/auth/verify`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             })
@@ -162,7 +211,7 @@ export default function AuthPage() {
                 {/* Form */}
                 <form className={styles.form} onSubmit={handleSubmit}>
                     {!isLogin && (
-                        <div className={styles.inputGroup}>
+                        <div className={`${styles.inputGroup} ${usernameStatus.state === 'error' ? styles.error : ''} ${usernameStatus.state === 'success' ? styles.success : ''}`}>
                             <label htmlFor="username">Username</label>
                             <input
                                 type="text"
@@ -174,10 +223,15 @@ export default function AuthPage() {
                                 required={!isLogin}
                                 minLength={3}
                             />
+                            {usernameStatus.message && (
+                                <div className={`${styles.availability} ${styles[usernameStatus.state]}`}>
+                                    {usernameStatus.message}
+                                </div>
+                            )}
                         </div>
                     )}
 
-                    <div className={styles.inputGroup}>
+                    <div className={`${styles.inputGroup} ${emailStatus.state === 'error' ? styles.error : ''} ${emailStatus.state === 'success' ? styles.success : ''}`}>
                         <label htmlFor="email">Email</label>
                         <input
                             type="email"
@@ -188,6 +242,11 @@ export default function AuthPage() {
                             onChange={handleChange}
                             required
                         />
+                        {!isLogin && emailStatus.message && (
+                            <div className={`${styles.availability} ${styles[emailStatus.state]}`}>
+                                {emailStatus.message}
+                            </div>
+                        )}
                     </div>
 
                     {!isLogin && (

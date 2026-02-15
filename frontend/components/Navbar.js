@@ -43,7 +43,7 @@ export default function Navbar() {
     localStorage.removeItem('mindlink-user');
     setUser(null);
     setIsDropdownOpen(false);
-    router.push('/');
+    router.push('/auth');
   };
 
   const navLinks = [

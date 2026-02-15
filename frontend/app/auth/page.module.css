@@ -198,6 +198,33 @@
     color: var(--primary-teal);
 }
 
+/* Input States */
+.inputGroup.error input {
+    border-color: #EF4444;
+}
+
+.inputGroup.success input {
+    border-color: #10B981;
+}
+
+.inputGroup.error label {
+    color: #EF4444;
+}
+
+.availability {
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+.availability.error {
+    color: #EF4444;
+}
+
+.availability.success {
+    color: #10B981;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .authCard {

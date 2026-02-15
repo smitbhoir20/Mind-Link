@@ -62,6 +62,15 @@ function initializeDatabase() {
         // Column already exists, ignore error
     }
 
+    // Migration: Ensure UNIQUE constraints on users table
+    try {
+        db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email)`);
+        db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username ON users(username)`);
+        console.log(' Verified unique constraints on users table');
+    } catch (e) {
+        console.error(' Error ensuring unique constraints:', e.message);
+    }
+
     // Insert default chat rooms if they don't exist
     const insertRoom = db.prepare(`
         INSERT OR IGNORE INTO chat_rooms (id, name, description, icon, color) 

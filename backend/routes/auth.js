@@ -5,6 +5,7 @@ const emailValidator = require('deep-email-validator');
 const {
     createUser,
     findUserByEmail,
+    findUserByUsername,
     findUserById,
     verifyPassword,
     updateLastLogin
@@ -76,6 +77,22 @@ router.post('/register', async (req, res) => {
         if (username.length < 3) {
             return res.status(400).json({
                 error: 'Username must be at least 3 characters'
+            });
+        }
+
+        // Check if email already exists
+        const existingEmail = findUserByEmail(email);
+        if (existingEmail) {
+            return res.status(400).json({
+                error: 'Email already registered'
+            });
+        }
+
+        // Check if username already exists
+        const existingUsername = findUserByUsername(username);
+        if (existingUsername) {
+            return res.status(400).json({
+                error: 'Username already taken'
             });
         }
 
@@ -158,6 +175,24 @@ router.post('/login', (req, res) => {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Login failed' });
     }
+});
+
+// Check email availability
+router.get('/check-email', (req, res) => {
+    const { email } = req.query;
+    if (!email) return res.status(400).json({ error: 'Email required' });
+
+    const user = findUserByEmail(email);
+    res.json({ available: !user });
+});
+
+// Check username availability
+router.get('/check-username', (req, res) => {
+    const { username } = req.query;
+    if (!username) return res.status(400).json({ error: 'Username required' });
+
+    const user = findUserByUsername(username);
+    res.json({ available: !user });
 });
 
 // Get current user profile (protected route)
