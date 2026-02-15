@@ -17,7 +17,7 @@ const io = new Server(server, {
     }
 });
 const peerServer = ExpressPeerServer(server, {
-    path: '/peerjs',
+    path: '/',
     allow_discovery: false
 });
 

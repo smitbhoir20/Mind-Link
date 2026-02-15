@@ -40,6 +40,7 @@ export default function BuddyChatPage() {
   const [error, setError] = useState('');
   const [selectedMood, setSelectedMood] = useState('calm');
   const [selectedInterests, setSelectedInterests] = useState(['General']);
+  const [peerId, setPeerId] = useState(null);
 
   const peerRef = useRef(null);
   const connectionRef = useRef(null);
@@ -70,7 +71,7 @@ export default function BuddyChatPage() {
 
 
   const startSearch = () => {
-    if (!socket || status === 'searching' || status === 'matched' || status === 'connecting' || status === 'connected') {
+    if (!socket || !peerId || status === 'searching' || status === 'matched' || status === 'connecting' || status === 'connected') {
       return;
     }
     setError('');
@@ -240,6 +241,11 @@ export default function BuddyChatPage() {
       setIsAccepted(false);
       setPeerAccepted(false);
       setError('');
+
+      // Re-register peer ID to ensure server has it for this match
+      if (peerId) {
+        newSocket.emit('peer_register', { peerId });
+      }
     });
 
     newSocket.on('match_peer_accepted', () => {
@@ -284,9 +290,10 @@ export default function BuddyChatPage() {
       secure: parsedUrl.protocol === 'https:',
     });
 
-    peer.on('open', (peerId) => {
+    peer.on('open', (id) => {
+      setPeerId(id);
       if (socket) {
-        socket.emit('peer_register', { peerId });
+        socket.emit('peer_register', { peerId: id });
       }
     });
 
@@ -359,8 +366,8 @@ export default function BuddyChatPage() {
           </div>
 
           <div className={styles.actions}>
-            <button className={styles.primaryButton} onClick={startSearch} disabled={!socket || status !== 'idle'}>
-              Find a Buddy
+            <button className={styles.primaryButton} onClick={startSearch} disabled={!socket || !peerId || status !== 'idle'}>
+              {peerId ? 'Find a Buddy' : 'Initializing...'}
             </button>
             <button className={styles.secondaryButton} onClick={cancelSearch} disabled={status !== 'searching'}>
               Cancel
