@@ -134,7 +134,7 @@ export default function Navbar() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className={styles.mobileMenu}>
+        <div className={styles.mobileMenuOverlay}>
           {navLinks.map((link) => (
             <Link
               key={link.href}

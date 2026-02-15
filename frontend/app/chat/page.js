@@ -233,23 +233,7 @@ export default function ChatPage() {
         }
     };
 
-    const handleClearChat = async () => {
-        if (!confirm('Are you sure you want to clear the chat history for everyone? This cannot be undone.')) {
-            return;
-        }
 
-        const backendUrl = getBackendUrl();
-
-        try {
-            await fetch(`${backendUrl}/api/messages/${activeRoom}`, {
-                method: 'DELETE',
-            });
-            // Socket event will handle the UI update
-        } catch (error) {
-            console.error('Failed to clear chat:', error);
-            alert('Failed to clear chat');
-        }
-    };
 
     const currentRoom = rooms.find(r => r.id === activeRoom);
     const roomOnlineCount = onlineCount[activeRoom] || 0;
@@ -303,14 +287,7 @@ export default function ChatPage() {
                         </div>
                     </div>
                     <div className={styles.chatActions}>
-                        <button
-                            className={styles.iconButton}
-                            title="Clear Chat"
-                            onClick={handleClearChat}
-                            style={{ color: '#EF4444' }}
-                        >
-                            <Icon name="Trash2" size={20} />
-                        </button>
+
                         <button className={styles.iconButton} title="Room Info">
                             <Icon name="Info" size={20} />
                         </button>
