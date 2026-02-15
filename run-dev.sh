@@ -9,6 +9,6 @@ echo "Starting backend (port 5000)..."
 (cd "$ROOT_DIR/backend" && node server.js) &
 
 echo "Starting frontend (port 3000)..."
-(cd "$ROOT_DIR/frontend" && pnpm run dev) &
+(cd "$ROOT_DIR/frontend" && pnpm build && pnpm start) &
 
 wait
