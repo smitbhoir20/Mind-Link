@@ -46,3 +46,5 @@ backend/pnpm-lock.yaml
 backend/pnpm-workspace.yaml
 frontend/pnpm-lock.yaml
 frontend/pnpm-workspace.yaml
+package-lock.json
+yarn.lock
