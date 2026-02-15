@@ -83,17 +83,17 @@ export default function ChatPage() {
         });
 
         newSocket.on('connect', () => {
-            console.log(' Connected to chat server');
+            console.log('Connected to chat server');
             setConnected(true);
         });
 
         newSocket.on('disconnect', () => {
-            console.log(' Disconnected from chat server');
+            console.log('Disconnected from chat server');
             setConnected(false);
         });
 
         newSocket.on('connect_error', (error) => {
-            console.log('️ Connection error - backend may not be running');
+            console.log('Connection error - backend may not be running');
             setConnected(false);
         });
 
@@ -125,7 +125,7 @@ export default function ChatPage() {
 
         // Handle cleared chat
         newSocket.on('chat_cleared', (data) => {
-            console.log(' Chat cleared by a user');
+            console.log('Chat cleared by a user');
             setMessages([]);
         });
 
@@ -164,7 +164,7 @@ export default function ChatPage() {
                             isOwn: msg.username === username
                         }));
                         setMessages(historyMessages);
-                        console.log(` Loaded ${historyMessages.length} messages from history`);
+                        console.log(`Loaded ${historyMessages.length} messages from history`);
                     }
                 })
                 .catch(err => {
@@ -205,7 +205,7 @@ export default function ChatPage() {
             setTimeout(() => {
                 const botMessage = {
                     id: Date.now() + 1,
-                    username: ' MoodBot',
+                    username: 'MoodBot',
                     content: "I hear you're feeling stressed. Remember, it's okay to take things one step at a time. You're stronger than you think! ",
                     time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
                     isBot: true,
@@ -261,7 +261,7 @@ export default function ChatPage() {
                 <div className={styles.sidebarHeader}>
                     <h2 className={styles.sidebarTitle}>Chat Rooms</h2>
                     <span className={`${styles.connectionStatus} ${connected ? styles.online : styles.offline}`}>
-                        {connected ? ' Live' : ' Offline'}
+                        {connected ? 'Live' : 'Offline'}
                     </span>
                 </div>
                 <div className={styles.roomList}>
@@ -298,7 +298,7 @@ export default function ChatPage() {
                             <h1 className={styles.chatTitle}>{currentRoom?.name}</h1>
                             <span className={styles.chatStatus}>
                                 <span className={styles.statusDot}></span>
-                                {roomOnlineCount} members online {connected ? '• Live' : '• Connecting...'}
+                                {roomOnlineCount} members online {connected ? 'Live' : 'Connecting...'}
                             </span>
                         </div>
                     </div>
@@ -327,7 +327,7 @@ export default function ChatPage() {
                         <p>This is a safe, anonymous space. Be kind and supportive. </p>
                         {!connected && (
                             <p className={styles.connectionWarning}>
-                                ️ Connecting to chat server... Make sure backend is running on port 5000
+                                Connecting to chat server... Make sure backend is running on port 5000
                             </p>
                         )}
                     </div>

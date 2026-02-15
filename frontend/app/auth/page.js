@@ -124,7 +124,7 @@ export default function AuthPage() {
                 localStorage.setItem('mindlink-token', data.token);
                 localStorage.setItem('mindlink-user', JSON.stringify(data.user));
 
-                console.log(' Login successful');
+                console.log('Login successful');
                 router.push('/');
 
             } else {
@@ -154,7 +154,7 @@ export default function AuthPage() {
                 localStorage.setItem('mindlink-token', data.token);
                 localStorage.setItem('mindlink-user', JSON.stringify(data.user));
 
-                console.log(' Registration successful');
+                console.log('Registration successful');
                 router.push('/');
             }
 

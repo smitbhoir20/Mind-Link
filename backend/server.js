@@ -57,7 +57,7 @@ app.delete('/api/messages/:roomId', (req, res) => {
         // Notify all clients in the room users that chat is cleared
         io.to(roomId).emit('chat_cleared', { room: roomId });
 
-        console.log(` Chat cleared for room: ${roomId}`);
+        console.log(`Chat cleared for room: ${roomId}`);
         res.json({ success: true, message: 'Chat history cleared' });
     } catch (error) {
         console.error('Error clearing messages:', error);
@@ -132,7 +132,7 @@ function tryEmitPeerReady(match) {
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
-    console.log(' User connected:', socket.id);
+    console.log('User connected:', socket.id);
 
     // Join a chat room
     socket.on('join_room', (data) => {
@@ -175,7 +175,7 @@ io.on('connection', (socket) => {
             });
         }
 
-        console.log(` User left room: ${room}`);
+        console.log(`User left room: ${room}`);
     });
 
     // Send message to room - NOW SAVES TO DATABASE
@@ -185,7 +185,7 @@ io.on('connection', (socket) => {
         // Save message to database
         try {
             const msgId = saveMessage(room, username || 'Anonymous', content);
-            console.log(` Message saved to DB (id: ${msgId})`);
+            console.log(`Message saved to DB (id: ${msgId})`);
         } catch (error) {
             console.error('Failed to save message:', error);
         }
@@ -201,7 +201,7 @@ io.on('connection', (socket) => {
         // Broadcast to all OTHER users in the room (sender already added locally)
         socket.to(room).emit('receive_message', messageData);
 
-        console.log(` [${room}] ${username}: ${content}`);
+        console.log(`[${room}] ${username}: ${content}`);
     });
 
     // Typing indicator
@@ -318,7 +318,7 @@ io.on('connection', (socket) => {
 
     // Disconnect
     socket.on('disconnect', () => {
-        console.log(' User disconnected:', socket.id);
+        console.log('User disconnected:', socket.id);
 
         // Remove from all rooms
         for (const room of Object.keys(roomUsers)) {
@@ -352,7 +352,7 @@ app.get('/health', (req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
-    console.log(` MindLink+ server running on port ${PORT}`);
-    console.log(` Socket.io ready for real-time chat`);
-    console.log(` SQLite database connected`);
+    console.log(`MindLink+ server running on port ${PORT}`);
+    console.log(`Socket.io ready for real-time chat`);
+    console.log(`SQLite database connected`);
 });

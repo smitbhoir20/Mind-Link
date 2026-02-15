@@ -1,169 +1,152 @@
-#  MindLink+
+<h1 align="center">
+  <a href="https://github.com/CommunityOfCoders/Inheritance2k25">
+    CoC Inheritance 2025
+  </a>
+  <br>
+  MindLink+: Your Personal Peer Support & Wellbeing Platform
+</h1>
 
-**Your Personal Peer Support & Wellbeing Platform**
+<div align="center">
+By smitbhoir20
+</div>
+<hr>
 
-A modern, student-friendly mental wellbeing web application featuring anonymous peer chat rooms, an AI-powered wellness companion, and daily self-care challenges. Built as a real startup-style platform for college students (ages 16-24).
+<details>
+<summary>Table of Contents</summary>
 
-![Tech Stack](https://img.shields.io/badge/Next.js-14-black?logo=next.js)
-![Express.js](https://img.shields.io/badge/Express.js-4.x-green?logo=express)
-![Socket.io](https://img.shields.io/badge/Socket.io-4.x-white?logo=socketdotio)
-![MySQL](https://img.shields.io/badge/MySQL-8.x-blue?logo=mysql)
-![OpenAI](https://img.shields.io/badge/OpenAI-API-412991?logo=openai)
+- [Description](#description)
+- [Links](#links)
+- [Tech Stack](#tech-stack)
+- [Progress](#progress)
+- [Future Scope](#future-scope)
+- [Applications](#applications)
+- [Project Setup](#project-setup)
+- [Team Members](#team-members)
+- [Mentors](#mentors)
 
-##  Features
+</details>
 
-| Feature | Description |
-|---------|-------------|
-|  **Peer Chat Rooms** | Anonymous themed chat rooms (Exam Stress, Career Talk, Positive Vibes, Focus Zone) |
-|  **AI MoodBot** | 24/7 AI wellness companion powered by OpenAI |
-|  **Daily Self-Care** | Personalized daily challenges for mental wellness |
-| ️ **Safe Space** | Anonymous identity protection and moderated environment |
+## Description
 
-##  Quick Start
+MindLink+ is a modern, student-friendly mental wellbeing platform designed to provide a safe space for anonymous peer support. The platform addresses the critical need for accessible mental health resources, offering themed chat rooms, an AI-powered wellness companion (MoodBot), and daily self-care challenges. Built with a focus on privacy and community, it helps students navigate stress, anxiety, and loneliness together.
 
-### Prerequisites
+## Links
 
-- Node.js 18+ installed
-- MySQL Server running (optional for basic functionality)
-- OpenAI API key (optional, fallback responses available)
+- [GitHub Repository](https://github.com/smitbhoir20/Mind-Link)
+- [Demo Video]([Insert Link])
+- [Project Screenshots/Drive]([Insert Link])
+- [Hosted Website]([Insert Link])
 
-### Installation
+## Tech-Stack
 
-1. **Clone and enter the project:**
-   ```bash
-   cd trial2
-   ```
+### System Architecture
 
-2. **Install Frontend Dependencies:**
-   ```bash
-   cd frontend
-   npm install
-   ```
+```mermaid
+graph TD
+    User([User/Source]) --> Frontend[Next.js Frontend]
+    Frontend <--> Backend[Express.js Backend]
+    Backend <--> Socket[Socket.io Real-time]
+    Backend <--> DB[(SQLite/MySQL)]
+    Backend <--> AI[Groq / OpenAI / Google AI]
+    Socket <--> User
+```
 
-3. **Install Backend Dependencies:**
-   ```bash
-   cd ../backend
-   npm install
-   ```
+### Front-end
+- **Next.js**: Modern React framework for the interface.
+- **Tailwind CSS**: Utility-first CSS for responsive design.
+- **Lucide React**: Clean and consistent iconography.
+- **Socket.io-client**: Real-time communication for chat rooms.
 
-4. **Configure Environment (Optional):**
-   ```bash
-   # Edit backend/.env file
-   OPENAI_API_KEY=your_api_key_here
-   DB_PASSWORD=your_mysql_password
-   ```
+### Back-end
+- **Express.js**: Robust backend framework.
+- **Node.js**: JavaScript runtime for the server.
+- **Socket.io**: Real-time engine for peer-to-peer chat.
+- **Better-SQLite3 / MySQL2**: Flexible database options for storage.
 
-5. **Set up Database (Optional):**
-   ```bash
-   # In MySQL, run:
-   mysql -u root -p < ../database/schema.sql
-   ```
+### AI Implementation
+- **Groq SDK / OpenAI SDK**: Powers the AI MoodBot for emotional support.
+- **Google Generative AI**: Alternative AI provider support.
 
-### Running the Application
+## Progress
 
-**Option 1: Frontend Only (Recommended for Quick Testing)**
+### Fully Implemented Features
+
+* **Anonymous Peer Chat Rooms**: Real-time themed rooms (Exam Stress, Career Talk, Focus Zone) with identity protection.
+* **AI MoodBot**: 24/7 AI wellness companion for instant support and coping strategies.
+* **Daily Self-Care Challenges**: Interactive wellness habits and daily challenges.
+* **Safe Space Moderation**: Environment designed for empathy and anonymity.
+
+---
+
+### Partially Implemented Features / Work in Progress
+
+* **Enhanced AI Personality**: Further refining MoodBot for more nuanced emotional responses.
+* **Expanded Room Categories**: Adding more niche support groups based on student feedback.
+
+## Future Scope
+
+* **Specialized AI Modules**: Integration of specific CBT-based AI therapy paths.
+* **Mobile Application**: Porting the platform to React Native for cross-platform accessibility.
+* **Voice Support**: Adding voice-to-text and voice chat capabilities for better accessibility.
+
+## Applications
+
+1. **Academic Institutions** - Providing students with an immediate, low-barrier support network.
+2. **Student Counseling Services** - Acting as a supplementary tool for mental health professionals to reach more students.
+
+## Project Setup
+
+### 1. Clone the GitHub repo
+
+```bash
+git clone https://github.com/smitbhoir20/Mind-Link.git
+```
+
+### 2. Install Dependencies
+
+**Frontend:**
 ```bash
 cd frontend
-npm run dev
+npm install
 ```
-Open http://localhost:3000
 
-**Option 2: Full Stack (With Backend)**
-
-Terminal 1 - Backend:
+**Backend:**
 ```bash
-cd backend
-node server.js
+cd ../backend
+npm install
 ```
 
-Terminal 2 - Frontend:
-```bash
-cd frontend
-npm run dev
-```
+### 3. Environment Configuration
 
-##  Project Structure
-
-```
-trial2/
-├── frontend/                 # Next.js 14 Application
-│   ├── app/
-│   │   ├── page.js          # Dashboard/Home
-│   │   ├── chat/page.js     # Chat Rooms
-│   │   ├── moodbot/page.js  # AI Companion
-│   │   ├── selfcare/page.js # Daily Challenges
-│   │   └── about/page.js    # About Page
-│   └── components/
-│       ├── Navbar.js        # Navigation
-│       └── FeatureCard.js   # Reusable Card
-│
-├── backend/                  # Express.js Server
-│   ├── server.js            # Main server + Socket.io
-│   ├── routes/
-│   │   ├── api.js           # REST API
-│   │   └── moodbot.js       # OpenAI Integration
-│   └── db/connection.js     # MySQL
-│
-└── database/
-    └── schema.sql           # Database tables
-```
-
-##  Design System
-
-- **Colors:** Purple (#8B5CF6), Teal (#14B8A6), Light Blue (#60A5FA)
-- **Typography:** Inter (Google Fonts)
-- **Style:** Soft gradients, rounded cards (16-24px radius), subtle shadows
-- **Animations:** Hover lift effects, floating icons, smooth transitions
-- **Vibe:** Clean, calming, Gen-Z friendly (not childish, not corporate)
-
-##  API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/rooms` | GET | List all chat rooms |
-| `/api/selfcare/challenge` | GET | Random daily challenge |
-| `/api/moodbot/chat` | POST | Chat with AI MoodBot |
-
-##  Socket.io Events
-
-| Event | Description |
-|-------|-------------|
-| `join_room` | Join a chat room |
-| `send_message` | Send message to room |
-| `receive_message` | Receive messages |
-| `typing` / `stop_typing` | Typing indicators |
-
-##  Environment Variables
-
+Create a `.env` file in the `backend` directory based on `.env.example`:
 ```env
-# Backend (.env)
 PORT=5000
 OPENAI_API_KEY=your_key_here
+GROQ_API_KEY=your_key_here
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=your_password
 DB_NAME=mindlink
 ```
 
-##  Pages Overview
+### 4. Start the Application
 
-1. **Dashboard (/)** - Hero section, feature cards, testimonials, CTA
-2. **Chat (/chat)** - Real-time peer chat rooms with toggle options
-3. **MoodBot (/moodbot)** - AI wellness companion interface
-4. **Self-Care (/selfcare)** - Daily challenge generator with progress
-5. **About (/about)** - Mission, problem/solution, technology stack
+**Run Backend:**
+```bash
+cd backend
+npm start
+```
 
-##  Overall Goal
+**Run Frontend:**
+```bash
+cd frontend
+npm run dev
+```
 
-- Promote mental health awareness among college students
-- Encourage empathy and peer support
-- Make students feel safe, heard, and emotionally supported
-- Present the platform as a real, trustworthy startup
+## Team Members
 
-## ️ Important Note
+* **smitbhoir20**: [https://github.com/smitbhoir20](https://github.com/smitbhoir20)
 
-MindLink+ is a peer support platform and **not a substitute for professional mental health care**. If you're experiencing a crisis, please contact your local mental health helpline.
+## Mentors
 
-##  License
-
-© 2026 MindLink+. Built with  for student wellbeing.
+* **[Mentor Name]**: [GitHub/LinkedIn Link]
