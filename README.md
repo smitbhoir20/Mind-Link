@@ -33,8 +33,8 @@ MindLink+ is a modern, student-friendly mental wellbeing platform designed to pr
 ## Links
 
 - [GitHub Repository](https://github.com/smitbhoir20/Mind-Link)
-- [Demo Video](ss/Screen%20Recording%202026-02-15%20173040.mp4)
-- [Project Screenshots](#screenshots)
+- [Demo Video](https://drive.google.com/drive/folders/1ZF4nDWSZp99R-2eETPNnloso3zFWdA_8)
+- [Project Screenshots](https://drive.google.com/drive/folders/1ZF4nDWSZp99R-2eETPNnloso3zFWdA_8)
 - [Hosted Website](https://mind-link-steel.vercel.app/)
 
 ## Tech-Stack
