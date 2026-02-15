@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-// Initialize AI clients
+
 let groq = null;
 let openai = null;
 let geminiModel = null;
 
-// Get API keys
+
 const openaiKey = process.env.OPENAI_API_KEY;
 const groqKey = process.env.GROQ_API_KEY;
 const geminiKey = process.env.GEMINI_API_KEY;
 
-// Priority: Groq (free & fast) > OpenAI > Gemini
+
 if (groqKey) {
     try {
         const Groq = require('groq-sdk');
@@ -73,7 +73,7 @@ router.post('/chat', async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Use Groq if available (FREE & FAST!)
+
         if (groq) {
             try {
                 const messages = [
@@ -86,7 +86,7 @@ router.post('/chat', async (req, res) => {
                 ];
 
                 const completion = await groq.chat.completions.create({
-                    model: 'llama-3.1-8b-instant',  // Fast & free!
+                    model: 'llama-3.1-8b-instant',
                     messages: messages,
                     max_tokens: 200,
                     temperature: 0.7
@@ -100,7 +100,7 @@ router.post('/chat', async (req, res) => {
             }
         }
 
-        // Use OpenAI if available
+
         if (openai) {
             try {
                 const messages = [
@@ -127,7 +127,7 @@ router.post('/chat', async (req, res) => {
             }
         }
 
-        // Use Gemini if available
+
         if (geminiModel) {
             try {
                 let prompt = MOODBOT_SYSTEM_PROMPT + '\n\nConversation:\n';
@@ -148,7 +148,7 @@ router.post('/chat', async (req, res) => {
             }
         }
 
-        // Fallback response
+
         console.log('Using fallback response');
         const fallbackResponse = getFallbackResponse(message);
         res.json({ response: fallbackResponse });
@@ -160,7 +160,7 @@ router.post('/chat', async (req, res) => {
     }
 });
 
-// Fallback responses when API is not available
+
 function getFallbackResponse(message) {
     const lowerMessage = (message || '').toLowerCase();
 

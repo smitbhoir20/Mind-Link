@@ -12,7 +12,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*",  // Allow all origins for local network access
+        origin: "*",
         methods: ["GET", "POST"]
     }
 });

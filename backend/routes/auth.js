@@ -11,7 +11,6 @@ const {
     updateLastLogin
 } = require('../db/sqlite');
 
-// JWT Secret (in production, use environment variable)
 const JWT_SECRET = process.env.JWT_SECRET || 'mindlink-secret-key-change-in-production';
 const JWT_EXPIRES_IN = '7d'; // Token valid for 7 days
 
