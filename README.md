@@ -33,9 +33,9 @@ MindLink+ is a modern, student-friendly mental wellbeing platform designed to pr
 ## Links
 
 - [GitHub Repository](https://github.com/smitbhoir20/Mind-Link)
-- [Demo Video]([Insert Link])
-- [Project Screenshots/Drive]([Insert Link])
-- [Hosted Website]([Insert Link])
+- [Demo Video](ss/Screen%20Recording%202026-02-15%20173040.mp4)
+- [Project Screenshots](#screenshots)
+- [Hosted Website](https://mind-link-steel.vercel.app/)
 
 ## Tech-Stack
 
@@ -57,15 +57,22 @@ graph TD
 - **Lucide React**: Clean and consistent iconography.
 - **Socket.io-client**: Real-time communication for chat rooms.
 
-### Back-end
-- **Express.js**: Robust backend framework.
-- **Node.js**: JavaScript runtime for the server.
-- **Socket.io**: Real-time engine for peer-to-peer chat.
-- **Better-SQLite3 / MySQL2**: Flexible database options for storage.
+### AI & Backend
+- **Framework**: Express.js
+- **Database**: SQLite (local development) / MySQL (production)
+- **AI Integration**: Groq SDK for lightning-fast AI responses
+- **Communication**: Socket.io for real-time anonymous chat
 
-### AI Implementation
-- **Groq SDK / OpenAI SDK**: Powers the AI MoodBot for emotional support.
-- **Google Generative AI**: Alternative AI provider support.
+## Screenshots
+
+| | |
+|:---:|:---:|
+| ![Landing Page](ss/Screenshot%202026-02-15%20170656.png) <br> *Landing Page* | ![Feature Categories](ss/Screenshot%202026-02-15%20170706.png) <br> *Support Categories* |
+| ![Get Started](ss/Screenshot%202026-02-15%20170723.png) <br> *Get Started Section* | ![Buddy Chat](ss/Screenshot%202026-02-15%20170751.png) <br> *Buddy Chat (P2P)* |
+| ![Chat Rooms](ss/Screenshot%202026-02-15%20170805.png) <br> *Anonymous Chat Rooms* | ![MoodBot](ss/Screenshot%202026-02-15%20170816.png) <br> *AI MoodBot* |
+| ![Self-Care](ss/Screenshot%202026-02-15%20170825.png) <br> *Daily Self-Care* | ![About Page](ss/Screenshot%202026-02-15%20170836.png) <br> *About MindLink+* |
+
+---
 
 ## Progress
 
@@ -145,8 +152,12 @@ npm run dev
 
 ## Team Members
 
-* **smitbhoir20**: [https://github.com/smitbhoir20](https://github.com/smitbhoir20)
+* **Smit Bhoir**: [https://github.com/smitbhoir20](https://github.com/smitbhoir20)
+* **Nihal Nayak**: [https://github.com/nihalnayak45](https://github.com/nihalnayak45)
+* **Abhinav Patil**: [https://github.com/pluss3446](https://github.com/pluss3446)
+* **Debojyoti Ghoshal**: [https://github.com/debojyotighoshal](https://github.com/debojyotighoshal)
+
 
 ## Mentors
 
-* **[Mentor Name]**: [GitHub/LinkedIn Link]
+* **[Mentor Name]**: [https://github.com/smitbhoir20](https://github.com/smitbhoir20)
